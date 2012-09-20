@@ -20,7 +20,7 @@ module clk_div (
     output clk_1
 );
 
-    /* (1 / 50e6) * 2**25 ~ 0.67s or ~1.5Hz */
+    /* (1/50e6) * 2**25 ~ 0.67s or ~1.5Hz */
     reg q_out [24:0];               
 
     always @ (posedge clk, posedge clr) begin
