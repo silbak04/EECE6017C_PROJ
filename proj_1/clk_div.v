@@ -21,9 +21,9 @@ module clk_div (
 );
 
     /* (1/50e6) * 2**25 ~ 0.67s or ~1.5Hz */
-    reg q_out [24:0];               
+    reg [24:0] q_out;
 
-    always @ (posedge clk, posedge clr) begin
+    always @ (posedge clk, negedge clr) begin
         if (clr)
             q_out <= 0;
         else
@@ -31,3 +31,5 @@ module clk_div (
     end
 
     assign clk_1 = q_out[24]; 
+
+endmodule

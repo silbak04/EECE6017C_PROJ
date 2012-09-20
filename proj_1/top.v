@@ -27,11 +27,12 @@ module top (
 );
     assign clk = CLOCK_50;
     assign rst = KEY[3];
-    assign in_put = KEY[0];
+    assign sign_switch = SW[9];
+    assign input_bcd = KEY[0];
 
     //wire clk_1;
 
-    reg [2:0] bit_cnt = 0;
+    reg [2:0] bcd_cnt = 0;
 
     reg [3:0] tenths_digit = 0;
     reg [3:0] units_digit = 0;
@@ -46,48 +47,47 @@ module top (
     wire [3:0] digit_1;
     wire [3:0] digit_2;
 
-    always @ (negedge in_put, negedge rst) begin
+    reg [3:0] sign = OFF;
+
+    always @ (negedge input_bcd, negedge rst) begin
+
         if (!rst) begin
-            bit_cnt = 0;
+
+            bcd_cnt = 0;
             tenths_digit = 0;
             units_digit = 0;
             tens_digit = 0;
+
         end
 
-        else if (!in_put) begin
+        else if (!input_bcd) begin
 
-            if (bit_cnt == 0) tenths_digit = SW[3:0];
-            if (bit_cnt == 1) units_digit = SW[3:0];
-            if (bit_cnt == 2) tens_digit = SW[3:0];
+            if (bcd_cnt == 0) tenths_digit = SW[3:0];
+            if (bcd_cnt == 1) units_digit = SW[3:0];
+            if (bcd_cnt == 2) tens_digit = SW[3:0];
 
-            bit_cnt = bit_cnt + 1;
+            bcd_cnt = bcd_cnt + 1;
+
         end
 
     end
 
-    assign digit_0 = (bit_cnt == 0) ? SW[3:0] : tenths_digit;
-    assign digit_1 = (bit_cnt == 1) ? SW[3:0] : units_digit;
-    assign digit_2 = (bit_cnt == 2) ? SW[3:0] : tens_digit;
+    always @ (sign_switch) begin
 
-    seven_seg display_0 (
-        .bcd(digit_0),
-        .seg(HEX0)
-    );
+        if (sign_switch)
+            sign = NEGATIVE;
+        else 
+            sign = OFF;
+    end
 
-    seven_seg display_1 (
-        .bcd(digit_1),
-        .seg(HEX1)
-    );
+    assign digit_0 = (bcd_cnt == 0) ? SW[3:0] : tenths_digit;
+    assign digit_1 = (bcd_cnt == 1) ? SW[3:0] : units_digit;
+    assign digit_2 = (bcd_cnt == 2) ? SW[3:0] : tens_digit;
 
-    seven_seg display_2 (
-        .bcd(digit_2),
-        .seg(HEX2)
-    );
-
-    seven_seg display_3 (
-        .bcd(NEGATIVE),
-        .seg(HEX3)
-    );
+    seven_seg display_0 (digit_0, HEX0);
+    seven_seg display_1 (digit_1, HEX1);
+    seven_seg display_2 (digit_2, HEX2);
+    seven_seg display_3 (sign, HEX3);
      
     /*clk_div in_sig_1 (
         .clk_1(clk)
