@@ -28,7 +28,6 @@ module temp_state (
     output reg emergency
 );
 
-    //reg [2:0] state_ready = 0;
     reg sign_change = 0;
     reg temp = 0;
 
@@ -64,8 +63,6 @@ module temp_state (
             warning = 0;
             emergency = 1;
         end
-
-        //else state_ready = state_ready + 1;
 
     end
 
