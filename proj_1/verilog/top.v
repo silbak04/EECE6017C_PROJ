@@ -38,7 +38,7 @@ module top (
     assign sign_on = SW[9];
     assign bcd_input = KEY[0];
     
-    reg sign_mode;
+    wire sign_mode;
     assign LEDG[0] = sign_mode;
     //wire clk_1;
 
