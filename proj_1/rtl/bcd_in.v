@@ -1,54 +1,75 @@
-`include "top_header.vh"
+`include "constants.vh"
 
 /*--==========================================================================--*/
 //--================================= VERILOG ==================================--
 //--============================================================================--
 //--                                                                            --
-//-- FILE NAME: top.v                                                           --
+//-- FILE NAME: bcd_in.v                                                        --
 //--                                                                            --
 //-- DATE: 9/18/2012                                                            --
 //--                                                                            --
 //-- DESIGNER: Samir Silbak                                                     --
 //--           silbak04@gmail.com                                               --
 //--                                                                            --
-//-- DESCRIPTION: instantiates two 7-seg displays                               --
-//--              and instantiates bcd input                                    --
+//-- DESCRIPTION: takes bcd input for ones, tens, and huns place                --
 //--                                                                            --
 //--============================================================================--
 //--================================= VERILOG ==================================--
 /*--===========================================================================--*/
 
-module bcd_module (
+module bcd_in (
     input rst,
     input sign_on,
+
     input bcd_input,
     input [3:0] bcd_num,
-    output reg [3:0] bcd_tenths,
-    output reg [3:0] bcd_units,
-    output reg [3:0] bcd_tens,
-    output reg [2:0] bcd_cnt,
+
+    output reg [3:0] temp_ones_value = 0,
+    output reg [3:0] temp_tens_value = 0,
+    output reg [3:0] temp_huns_value = 0,
+
+    output reg [3:0] ones_value = 0,
+    output reg [3:0] tens_value = 0,
+    output reg [3:0] huns_value = 0,
+
+    output reg [1:0] bcd_press = 0,
+    output reg [3:0] track_inp = 1,
+
     output reg [3:0] sign,
     output reg sign_mode
 );
 
-    always @ (negedge bcd_input, negedge rst) begin
+    always @ (posedge bcd_input or posedge rst) begin
 
-        if (!rst) begin
+        if (rst) begin
 
             /* reset all registers */
-            bcd_cnt = 0;
-            bcd_tenths = 0;
-            bcd_units = `OFF;
-            bcd_tens = `OFF;
-        end
+            ones_value = 0;
+            tens_value = 0;
+            huns_value = 0;
 
-        else if (!bcd_input) begin
+            bcd_press = 0;
+            track_inp = 1;
 
-            if (bcd_cnt == 0) bcd_tenths = bcd_num;
-            if (bcd_cnt == 1) bcd_units = bcd_num;
-            if (bcd_cnt == 2) bcd_tens = bcd_num;
+        end else if (bcd_input) begin
 
-            bcd_cnt = bcd_cnt + 1;
+            if (bcd_press == 0) ones_value = bcd_num;
+            if (bcd_press == 1) tens_value = bcd_num;
+            if (bcd_press == 2) huns_value = bcd_num;
+
+            bcd_press = bcd_press + 1;
+            track_inp = track_inp << 1;
+
+            if (bcd_press == 3) begin 
+
+                temp_ones_value = ones_value;
+                temp_tens_value = tens_value;
+                temp_huns_value = huns_value;
+
+                bcd_press = 0;
+                track_inp = 1;
+
+            end
 
         end
 
@@ -57,13 +78,15 @@ module bcd_module (
     always @ (sign_on) begin
 
         if (sign_on) begin
+
             sign = `NEGATIVE;
             sign_mode = 1;
-        end
 
-        else begin
+        end else begin
+
             sign = `OFF;
             sign_mode = 0;
+
         end
 
     end

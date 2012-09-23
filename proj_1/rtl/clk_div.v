@@ -1,4 +1,4 @@
-`include "top_header.vh"
+`include "constants.vh"
 
 /*--==========================================================================--*/
 //--================================= VERILOG ==================================--
@@ -25,11 +25,11 @@ module clk_div (
     /* (1/50e6) * 2**25 ~ 0.67s or ~1.5Hz */
     reg [24:0] q_out;
 
-    always @ (posedge clk or negedge clr) begin
-        if (clr)
-            q_out <= 0;
-        else
-            q_out <= q_out + 1;
+    always @ (posedge clk or posedge clr) begin
+
+        if (clr) q_out <= 0;
+        else q_out <= q_out + 1;
+
     end
 
     assign clk_1 = q_out[24]; 
