@@ -1,0 +1,68 @@
+Test Temperatures		Description
+Sign [Tens Ones Decimal]
+
+-----------------		-----------
+
++[000]				Initial Boot (Mode = detect +50)
++[999]				Max Input from Boot
+-[999]				Max Adjust Pos to Neg
++[999]				Max Adjust Neg to Pos
++[000]				Reset Test
+
+-----------------		------------
+
++[000]				Mode Change / Reset (Mode = detect -50)
++[999]				Max Input from Boot
+-[999]				Max Adjust Pos to Neg
++[999]				Max Adjust Neg to Pos
+-[000]				How do you handle - 00.0?
+
+-----------------		------------
+
++[000]				Reset (Mode = detect -50)
+-[009]				Normal 00.9 temp fall
+-[058]				Normal 04.9 temp fall
+-[108]				Large  05.0 temp fall
+-[159]				Large  05.1 temp fall
+-[108]				Large  05.1 temp rise
+-[058]				Large  05.0 temp rise
+-[009]				Normal 04.9 temp rise
+-[390]				Large  38.1 temp fall
+-[399]				Normal 00.9 temp fall (boundary test)
+-[400]				Normal 00.1 temp fall (boundary test borderline state)
+-[399]				Normal 00.1 temp rise (boundary test normal state)
+-[469]				Large  07.0 temp fall (boundary test borderline state)
+-[470]				Normal 00.1 temp fall (boundary test attention state)
+-[469]				Normal 00.1 temp rise (boundary test borderline state)
+-[499]				Normal 03.0 temp fall (boundary test attention state)
+-[500]				Normal 00.1 temp fall (boundary test emergency state)
+-[499]				Normal 00.1 temp rise (boundary test emergency state)
+-[530]				Normal 03.1 temp fall Emergency state normal test
+-[550]				Normal 02.0 temp fall Emergency state normal test
+-[600]				Large  05.0 temp fall Emergency and Large jump test
+
+-----------------		------------
+
++[000]				Mode Change (mode = detect +50) 
+					& (if mode change does not do reset)
+					 Large temp rise to 0 
++[009]				Normal 00.9 temp rise
++[058]				Normal 04.9 temp rise
++[108]				Large  05.0 temp rise
++[159]				Large  05.1 temp rise
++[108]				Large  05.1 temp fall
++[058]				Large  05.0 temp fall
++[009]				Normal 04.9 temp fall
++[390]				Large  38.1 temp rise
++[399]				Normal 00.9 temp rise (boundary test)
++[400]				Normal 00.1 temp rise (boundary test borderline state)
++[399]				Normal 00.1 temp fall (boundary test normal state)
++[469]				Large  07.0 temp rise (boundary test borderline state)
++[470]				Normal 00.1 temp rise (boundary test attention state)
++[469]				Normal 00.1 temp fall (boundary test borderline state)
++[499]				Normal 03.0 temp rise (boundary test attention state)
++[500]				Normal 00.1 temp rise (boundary test emergency state)
++[499]				Normal 00.1 temp fall (boundary test emergency state)
++[530]				Normal 03.1 temp rise Emergency state normal test
++[550]				Normal 02.0 temp rise Emergency state normal test
++[600]				Large  05.0 temp rise Emergency and Large jump test			
