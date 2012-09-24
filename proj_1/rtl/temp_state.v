@@ -9,7 +9,9 @@
 //-- DATE: 9/18/2012                                                            --
 //--                                                                            --
 //-- DESIGNER: Samir Silbak                                                     --
-//--           silbak04@gmail.com                                               --
+//--           John Brady                                                       --
+//--           Nick Foltz                                                       --
+//--           Camiren Stewart                                                  --
 //--                                                                            --
 //-- DESCRIPTION: handles each temperature states appropriately                 --
 //--                                                                            --
@@ -19,93 +21,66 @@
 
 module temp_state (
     input rst,
+    input [2:0] bcd_press,
 
-    input [3:0] sign,
+    input curr_sign_mode,
+    input temp_sign_mode,
 
-    input [3:0] temp_tens_value,
-    input [3:0] temp_huns_value,
+    input [3:0] out_ones,
+    input [3:0] out_tens,
+    input [3:0] out_huns,
 
-    input [3:0] tens_value,
-    input [3:0] huns_value,
+    input [3:0] curr_ones_value,
+    input [3:0] curr_tens_value,
+    input [3:0] curr_huns_value,
 
-    output reg normal = 0,
-    output reg border = 0,
-    output reg warning = 0,
-    output reg emergency = 0
+    output reg [9:0] alarm = 0
 );
 
-    reg diff_tens = 0;
-    reg diff_huns = 0;
-
     reg sign_change = 0;
-    reg temp_change = 0;
+
+    wire [11:0] curr_total = {(curr_huns_value), (curr_tens_value), (curr_ones_value)};
+    wire [11:0] diff_total = {(out_huns), (out_tens), (out_ones)};
 
     always @ (*) begin
 
-        if (rst) begin
+        if (rst) alarm = 0;
 
-            normal = 0;
-            border = 0;
-            warning = 0;
-            emergency = 0;
+        if (bcd_press == 3'd3) begin
 
-        end else begin
+            /* checks to see if temperature is between 0 and 39.0 */
+            if (curr_total >= 12'h000 && 
+                curr_total <= 12'h390)
 
-            /*if (sign_on) sign_change = 1;
-                else */
+                alarm = 10'b0000000000;
 
-            /*diff_tens = (tens_value - temp_tens_value);
-            diff_huns = (huns_value - temp_huns_value);*/
+            /* checks to see if temperature is between 39.1 and 46.0 */
+            else if (curr_total >= 12'h391 && 
+                     curr_total <= 12'h460)
 
-            /* checks to see if temperature is between 0 and 39 */
-            if (huns_value >= 0 && huns_value < 4 && tens_value >= 0 && tens_value <= 9) begin
+                alarm = 10'b0000000000;
 
-                border = 0;
-                warning = 0;
-                emergency = 0;
-                normal = 1;
+            /* checks to see if temperature is between 46.1 and 49.0 */
+            else if (curr_total >= 12'h461 && 
+                     curr_total <= 12'h490)
 
-            end
+                alarm = 10'b1010101010;
 
-            /* checks to see if temperature is between 40 and 46 */
-            else if (huns_value == 4 && tens_value >= 0 && tens_value < 7) begin 
+            /* checks to see if temperature is 49.1 degrees or greater */
+            else if (curr_total >= 12'h491)
+                
+               alarm = 10'b1111111111;
 
-                normal = 0;
-                warning = 0;
-                emergency = 0;
-                border = 1;
+        end
 
-            end
+        /* checks if a sign change has occurred */
+        sign_change = temp_sign_mode ^ curr_sign_mode;
 
-            /* checks to see if temperature is between 47 and 49 */
-            else if (huns_value == 4 && tens_value >= 7 && tens_value <= 9) begin
+        if (sign_change == 1) alarm = 10'b1111111111;
 
-                normal = 0;
-                border = 0;
-                emergency = 0;
-                warning = 1;
+        if (bcd_press == 4) begin
 
-            end
-
-            /* checks to see if temperature is 50 degrees or greater or if we had a sign change */
-            else if ((huns_value >= 5 && tens_value >= 0) || (diff_tens >= 5) || (diff_tens <= -5) || 
-                    (diff_huns < 0) || (diff_huns > 0) || (sign_change != temp_change)) begin 
-
-                normal = 0;
-                border = 0;
-                warning = 0;
-                emergency = 1;
-
-                /*if (sign_change != temp_change) begin
-
-                    normal = 0;
-                    border = 0;
-                    warning = 0;
-                    emergency = 1;
-
-                end*/
-
-            end
+            if (diff_total >= 12'h050) alarm = 10'b1111111111;
 
         end
 

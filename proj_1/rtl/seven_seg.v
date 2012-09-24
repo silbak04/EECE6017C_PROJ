@@ -9,7 +9,9 @@
 //-- DATE: 9/18/2012                                                            --
 //--                                                                            --
 //-- DESIGNER: Samir Silbak                                                     --
-//--           silbak04@gmail.com                                               --
+//--           John Brady                                                       --
+//--           Nick Foltz                                                       --
+//--           Camiren Stewart                                                  --
 //--                                                                            --
 //-- DESCRIPTION: bcd 7-seg decoder                                             --
 //--                                                                            --
@@ -20,7 +22,6 @@
 module seven_seg (
     input [3:0] bcd,
     output reg [6:0] seg
-    //output reg [
 );
 
     initial seg = 0;

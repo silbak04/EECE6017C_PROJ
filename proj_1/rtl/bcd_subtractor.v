@@ -1,5 +1,3 @@
-`include "constants.vh"
-
 /*--==========================================================================--*/
 //--================================= VERILOG ==================================--
 //--============================================================================--
@@ -9,7 +7,9 @@
 //-- DATE: 9/18/2012                                                            --
 //--                                                                            --
 //-- DESIGNER: Samir Silbak                                                     --
-//--           silbak04@gmail.com                                               --
+//--           John Brady                                                       --
+//--           Nick Foltz                                                       --
+//--           Camiren Stewart                                                  --
 //--                                                                            --
 //-- DESCRIPTION: excess three code algorithm (subtractor)                      --
 //--                                                                            --
@@ -26,9 +26,9 @@ module bcd_subtractor (
     input [3:0] y_tens,
     input [3:0] y_huns,
 
-    output reg [3:0] out_ones = `OFF,
-    output reg [3:0] out_tens = `OFF,
-    output reg [3:0] out_huns = `OFF,
+    output reg [3:0] out_ones = 0,
+    output reg [3:0] out_tens = 0,
+    output reg [3:0] out_huns = 0,
 
     output reg [3:0] sign
 );
@@ -38,6 +38,7 @@ module bcd_subtractor (
 
     reg [11:0] total = 0;
 
+    /* add three to ones, tens, and huns place and concatenate the literal value */
     assign x_total = {(x_huns + 4'd3), (x_tens + 4'd3), (x_ones + 4'd3)};
     assign y_total = {(y_huns + 4'd3), (y_tens + 4'd3), (y_ones + 4'd3)};
 
@@ -51,15 +52,19 @@ module bcd_subtractor (
             out_tens = total[7:4];
             out_huns = total[11:8];
 
+            /* check to see if we need to borrow */
             if (y_ones < x_ones) out_ones = out_ones - 6;
             if (y_tens < x_tens) out_tens = out_tens - 6;
             if (y_huns < x_huns) out_huns = out_huns - 6;
 
+            /* we need to subtract if bcd is > 9 */
             if (out_ones > 9) out_ones = out_ones - 6;
             if (out_tens > 9) out_tens = out_tens - 6;
             if (out_huns > 9) out_huns = out_huns - 6;
 
-            sign = 0;
+            /* since temp is > current input, 
+            our change is negative */
+            sign = 1;
 
         end else begin
 
@@ -69,15 +74,19 @@ module bcd_subtractor (
             out_tens = total[7:4];
             out_huns = total[11:8];
 
+            /* check to see if we need to borrow */
             if (x_ones < y_ones) out_ones = out_ones - 6;
             if (x_tens < y_tens) out_tens = out_tens - 6;
             if (x_huns < y_huns) out_huns = out_huns - 6;
 
+            /* we need to subtract if bcd is > 9 */
             if (out_ones > 9) out_ones = out_ones - 6;
             if (out_tens > 9) out_tens = out_tens - 6;
             if (out_huns > 9) out_huns = out_huns - 6;
 
-            sign = 1;
+            /* since current input is > temp, 
+            our change is positive */
+            sign = 0;
 
         end
 
