@@ -119,7 +119,6 @@ module bcd_in (
 
         end
 
-
     end
 
     always @ (sign_on) begin
