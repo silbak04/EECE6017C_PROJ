@@ -13,14 +13,13 @@ SRC = \
 	../rtl/bcd_subtractor.v \
 	../rtl/bcd_in.v \
 	../rtl/clk_div.v \
-	../rtl/bcd_to_binary.v \
 	../rtl/seven_seg.v \
 	../rtl/temp_state.v \
-	../rtl/top.v \
-	../rtl/pulse_width.v
+	../rtl/top.v 
 
 SIM_SRC = \
-	../sim/bcd_subtractor_tb.v 
+	../sim/bcd_subtractor_tb.v \
+	../sim/top_tb.v
 
 VINCDIR = \
 	-I../rtl/
