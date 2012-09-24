@@ -7,7 +7,7 @@
 
 PROJECT = top
 ASSIGNMENT_FILES = top.qpf top.qsf
-SIM_TB = bcd_subtractor_tb
+SIM_TB = top_tb
 
 SRC = \
 	../rtl/bcd_subtractor.v \

@@ -21,7 +21,11 @@
 
 module temp_state (
     input rst,
+
     input [2:0] bcd_press,
+    input [2:0] diff_read,
+    
+    input got_value,
 
     input curr_sign_mode,
     input temp_sign_mode,
@@ -34,53 +38,85 @@ module temp_state (
     input [3:0] curr_tens_value,
     input [3:0] curr_huns_value,
 
+    output reg [3:0] state = 1,
+
     output reg [9:0] alarm = 0
 );
 
     reg sign_change = 0;
 
+    parameter NORMAL    = 4'b0001;
+    parameter BORDER    = 4'b0010;
+    parameter WARNING   = 4'b0100;
+    parameter EMERGENCY = 4'b1000;
+
+    //reg STATE = NORMAL;
+
     wire [11:0] curr_total = {(curr_huns_value), (curr_tens_value), (curr_ones_value)};
     wire [11:0] diff_total = {(out_huns), (out_tens), (out_ones)};
 
-    always @ (*) begin
+    always @ (posedge got_value) begin
 
-        if (rst) alarm = 0;
+        if (rst) begin 
 
-        if (bcd_press == 3'd3) begin
+            alarm = 0;
+            state = NORMAL;
 
-            /* checks to see if temperature is between 0 and 39.0 */
-            if (curr_total >= 12'h000 && 
-                curr_total <= 12'h390)
+        end
 
-                alarm = 10'b0000000000;
+        /* checks to see if temperature is between 0 and 40.0 */
+        if (curr_total >= 12'h000 && 
+            curr_total <= 12'h400) begin
 
-            /* checks to see if temperature is between 39.1 and 46.0 */
-            else if (curr_total >= 12'h391 && 
-                     curr_total <= 12'h460)
+            alarm = 10'b0000000000;
+            state = NORMAL;
 
-                alarm = 10'b0000000000;
+        end
 
-            /* checks to see if temperature is between 46.1 and 49.0 */
-            else if (curr_total >= 12'h461 && 
-                     curr_total <= 12'h490)
+        /* checks to see if temperature is between 40.1 and 46.0 */
+        if (curr_total >= 12'h401 && 
+            curr_total <= 12'h460) begin
 
-                alarm = 10'b1010101010;
+            alarm = 10'b0000000000;
+            state = BORDER;
 
-            /* checks to see if temperature is 49.1 degrees or greater */
-            else if (curr_total >= 12'h491)
-                
-               alarm = 10'b1111111111;
+        end
+
+        /* checks to see if temperature is between 46.1 and 49.0 */
+        if (curr_total >= 12'h461 && 
+            curr_total <= 12'h490) begin
+
+            alarm = 10'b1010101010;
+            state = WARNING;
+
+        end
+
+        /* checks to see if temperature is 49.1 degrees or greater */
+        if (curr_total >= 12'h491) begin
+        
+            alarm = 10'b1111111111;
+            state = EMERGENCY;
+
+        end
+
+        if (diff_read == 2) begin
+
+            if (diff_total >= 12'h050) begin
+
+                alarm = 10'b1111111111;
+                state = EMERGENCY;
+
+            end
 
         end
 
         /* checks if a sign change has occurred */
         sign_change = temp_sign_mode ^ curr_sign_mode;
 
-        if (sign_change == 1) alarm = 10'b1111111111;
+        if (sign_change == 1) begin 
 
-        if (bcd_press == 4) begin
-
-            if (diff_total >= 12'h050) alarm = 10'b1111111111;
+            alarm = 10'b1111111111;
+            state = EMERGENCY;
 
         end
 

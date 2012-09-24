@@ -505,12 +505,6 @@ set_global_assignment -name EDA_TEST_BENCH_NAME top_tb -section_id eda_simulatio
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id top_tb
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME top_tb -section_id top_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE verilog/top_tb.v -section_id top_tb
-set_global_assignment -name VERILOG_FILE ../rtl/bcd_subtractor.v
-set_global_assignment -name VERILOG_FILE ../rtl/bcd_in.v
-set_global_assignment -name VERILOG_FILE ../rtl/clk_div.v
-set_global_assignment -name VERILOG_FILE ../rtl/temp_state.v
-set_global_assignment -name VERILOG_FILE ../rtl/seven_seg.v
-set_global_assignment -name VERILOG_FILE ../rtl/top.v
 set_global_assignment -name OPTIMIZE_POWER_DURING_FITTING "NORMAL COMPILATION"
 set_global_assignment -name FITTER_EFFORT "AUTO FIT"
 set_global_assignment -name USE_CONFIGURATION_DEVICE ON
@@ -523,4 +517,13 @@ set_global_assignment -name OPTIMIZE_MULTI_CORNER_TIMING ON
 
 
 
+
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name VERILOG_FILE ../rtl/stateControl.v
+set_global_assignment -name VERILOG_FILE ../rtl/pulse_width.v
+set_global_assignment -name VERILOG_FILE ../rtl/bcd_subtractor.v
+set_global_assignment -name VERILOG_FILE ../rtl/bcd_in.v
+set_global_assignment -name VERILOG_FILE ../rtl/clk_div.v
+set_global_assignment -name VERILOG_FILE ../rtl/temp_state.v
+set_global_assignment -name VERILOG_FILE ../rtl/seven_seg.v
+set_global_assignment -name VERILOG_FILE ../rtl/top.v
