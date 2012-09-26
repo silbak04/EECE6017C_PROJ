@@ -92,50 +92,6 @@ module top (
         to the mux output which will get displayed onto the 7 seg,
             otherwise bcd number will be displayed onto the 7 seg */
 
-    wire [3:0] ones_value_digit = (bcd_press == 0) ? bcd_num : curr_ones_value;
-    wire [3:0] tens_value_digit = (bcd_press == 1) ? bcd_num : curr_tens_value;
-    wire [3:0] huns_value_digit = (bcd_press == 2) ? bcd_num : curr_huns_value; 
-
-    /* toggles the display between the value of the bcd and the off display */
-    wire [3:0] ones_value_digit_flash = (clk_1) ? ones_value_digit : `OFF;
-    wire [3:0] tens_value_digit_flash = (clk_1) ? tens_value_digit : `OFF;
-    wire [3:0] huns_value_digit_flash = (clk_1) ? huns_value_digit : `OFF;
-
-    wire [3:0] flash_ones = ones_value_digit_flash;
-    wire [3:0] flash_tens = tens_value_digit_flash;
-    wire [3:0] flash_huns = huns_value_digit_flash;
-
-    /* toggles the display between bcd and off depending on which 7 seg display
-    you're one */
-    wire [3:0] ones_value_digit_off = (bcd_press > 0) ? curr_ones_value : `OFF;
-    wire [3:0] tens_value_digit_off = (bcd_press > 1) ? curr_tens_value : `OFF;
-    wire [3:0] huns_value_digit_off = (bcd_press > 2) ? curr_huns_value : `OFF; 
-
-    /* output 1 */
-    wire [3:0] flash_ones_display = (bcd_press == 0) ? flash_ones : ones_value_digit_off;
-    wire [3:0] flash_tens_display = (bcd_press == 1) ? flash_tens : tens_value_digit_off;
-    wire [3:0] flash_huns_display = (bcd_press == 2) ? flash_huns : huns_value_digit_off;
-
-    wire [3:0] flash_ones_diff_display = (bcd_press == 3) ? out_ones : `OFF;
-    wire [3:0] flash_tens_diff_display = (bcd_press == 3) ? out_tens : `OFF;
-    wire [3:0] flash_huns_diff_display = (bcd_press == 3) ? out_huns : `OFF;
-
-    /* output 2 */
-    wire [3:0] flash_toggle_ones = (bcd_press == 3) ? flash_ones_diff_display : flash_ones_display;
-    wire [3:0] flash_toggle_tens = (bcd_press == 3) ? flash_tens_diff_display : flash_tens_display;
-    wire [3:0] flash_toggle_huns = (bcd_press == 3) ? flash_huns_diff_display : flash_huns_display;
-
-    /*wire [3:0] flash_ones_diff_display_0 = (clk_1) ? flash_ones_diff_display : `OFF;
-    wire [3:0] flash_tens_diff_display_1 = (clk_1) ? flash_tens_diff_display : `OFF;
-    wire [3:0] flash_huns_diff_display_2 = (clk_1) ? flash_huns_diff_display : `OFF;*/
-
-    /*wire [3:0] flash_toggle_ones_disp = (bcd_press > 0) ? curr_ones_value : flash_toggle_ones;
-    wire [3:0] flash_toggle_tens_disp = (bcd_press > 1) ? curr_tens_value : flash_toggle_tens;
-    wire [3:0] flash_toggle_huns_disp = (bcd_press > 2) ? curr_huns_value : flash_toggle_huns;*/
-
-
-    //wire [3:0] sign_sw_check = (sign_on == 1) ? `NEGATIVE : sign_check;
-
     reg [2:0] disp_state = 0;
     always @(posedge clk_2) begin
         disp_state = disp_state + 1;
