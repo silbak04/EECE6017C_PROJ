@@ -30,6 +30,10 @@ module bcd_in (
     output reg [3:0] save_temp_tens_value = 0,
     output reg [3:0] save_temp_huns_value = 0,
 
+    output reg [3:0] temp_ones_value = 0,
+    output reg [3:0] temp_tens_value = 0,
+    output reg [3:0] temp_huns_value = 0,
+
     output reg [3:0] curr_ones_value = 0,
     output reg [3:0] curr_tens_value = 0,
     output reg [3:0] curr_huns_value = 0,
@@ -41,17 +45,12 @@ module bcd_in (
 
     output reg got_value = 0,
 
-    output reg [3:0] sign,
+    output reg temp_sign_mode = 0,
 
-    output reg curr_sign_mode = 0,
-    output reg temp_sign_mode = 0
+    output sign_mode_changed
 );
 
-    reg [3:0] temp_ones_value = 0;
-    reg [3:0] temp_tens_value = 0;
-    reg [3:0] temp_huns_value = 0;
-
-    always @ (posedge bcd_input or posedge rst) begin
+    always @ (posedge bcd_input, posedge rst) begin
 
         /* If reset button is released */
         if (rst) begin
@@ -68,6 +67,7 @@ module bcd_in (
             save_temp_ones_value = 0;
             save_temp_tens_value = 0;
             save_temp_huns_value = 0;
+
 
             bcd_press = 0;
             track_inp = 1;
@@ -100,7 +100,6 @@ module bcd_in (
                 temp_tens_value = curr_tens_value;
                 temp_huns_value = curr_huns_value;
 
-                temp_sign_mode = curr_sign_mode;
 
                 got_value = 1;
 
@@ -108,36 +107,36 @@ module bcd_in (
 
                 if (diff_read > 2) diff_read = 2;
 
-                track_inp = 1;
+                //track_inp = 1;
 
             end
 
-                if (bcd_press == 3) got_value = 1;
+            if (bcd_press == 3) got_value = 1;
 
-                /* increment bcd input and track
-                it onto the leds */
-                bcd_press = bcd_press + 1;
+            /* increment bcd input and track
+            it onto the leds */
+            bcd_press = bcd_press + 1;
 
-                if (bcd_press == 5) bcd_press = 0;
-
-        end
-
-    end
-
-    always @ (sign_on) begin
-
-        if (sign_on) begin
-
-            sign = `NEGATIVE;
-            curr_sign_mode = 1;
-
-        end else begin
-
-            sign = `OFF;
-            curr_sign_mode = 0;
+            if (bcd_press == 4) bcd_press = 0;
 
         end
 
     end
+
+
+    reg mode_changed_pos = 0; // positive edge detected
+    reg mode_changed_neg = 0; // negative edge detected
+
+    always @(posedge sign_on, posedge rst) 
+        if (rst) mode_changed_pos = 0;
+        else mode_changed_pos = 1;
+
+    always @(negedge sign_on, posedge rst) 
+        if (rst) mode_changed_neg = 0;
+        else mode_changed_neg = 1;
+
+    assign sign_mode_changed = mode_changed_pos | mode_changed_neg;
+
+
 
 endmodule

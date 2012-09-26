@@ -31,11 +31,11 @@ module bcd_subtractor_tb ();
     wire [3:0] out_tens;
     wire [3:0] out_huns;
 
-    wire sign;
+    wire negative;
 
     reg [31:0] count = 0;
 
-    excess_three_coding dut (
+    bcd_subtractor dut (
         .x_ones(x_ones),
         .x_tens(x_tens),
         .x_huns(x_huns),
@@ -48,7 +48,7 @@ module bcd_subtractor_tb ();
         .out_tens(out_tens),
         .out_huns(out_huns),
 
-        .sign(sign)
+        .negative(negative)
 );
 
 /*--==========================================================--*/
@@ -56,8 +56,8 @@ module bcd_subtractor_tb ();
 /*--==========================================================--*/
 
     initial begin
-        $dumpfile("excess_three_code_tb.vcd");
-        $dumpvars(0, excess_three_code_tb);
+        $dumpfile("bcd_subtractor_tb.vcd");
+        $dumpvars(0, bcd_subtractor_tb);
     end
 
     initial begin
@@ -80,7 +80,7 @@ module bcd_subtractor_tb ();
 
             #10;
             $write ("%d%d%d - %d%d%d = ", y_huns, y_tens, y_ones, x_huns, x_tens, x_ones);
-            if (sign) $write("-");
+            if (negative) $write("-");
             $write ("%d%d%d\n", out_huns, out_tens, out_ones);
 
         end

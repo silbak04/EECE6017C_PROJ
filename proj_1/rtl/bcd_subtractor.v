@@ -30,7 +30,7 @@ module bcd_subtractor (
     output reg [3:0] out_tens = 0,
     output reg [3:0] out_huns = 0,
 
-    output reg [3:0] sign
+    output reg negative = 0
 );
 
     wire [11:0] x_total;
@@ -64,7 +64,7 @@ module bcd_subtractor (
 
             /* since temp is > current input, 
             our change is negative */
-            sign = 1;
+            negative = 0;
 
         end else begin
 
@@ -86,7 +86,8 @@ module bcd_subtractor (
 
             /* since current input is > temp, 
             our change is positive */
-            sign = 0;
+            if (total == 0) negative = 0;
+            else negative = 1;
 
         end
 
