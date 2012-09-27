@@ -39,8 +39,6 @@ module bcd_in (
     output reg [3:0] curr_huns_value = 0,
 
     output reg [2:0] bcd_press = 0,
-    //output reg [2:0] diff_read = 0,
-
     output reg got_value = 0,
 
     output sign_mode_changed
@@ -48,10 +46,8 @@ module bcd_in (
 
     always @ (posedge bcd_input, posedge rst) begin
 
-        /* If reset button is released */
         if (rst) begin
 
-            /* reset all registers */
             curr_ones_value = 0;
             curr_tens_value = 0;
             curr_huns_value = 0;
@@ -65,13 +61,8 @@ module bcd_in (
             save_temp_huns_value = 0;
 
             bcd_press = 0;
-
-            //diff_read = 0;
-            //load_value = 0;
             got_value = 0;
 
-        /* Else if input button is released */
-        /* Takes 4 button presses to receive temperature reading */
         end else if (bcd_input) begin
 
             if (bcd_press == 0) begin
@@ -95,14 +86,8 @@ module bcd_in (
                 temp_tens_value = curr_tens_value;
                 temp_huns_value = curr_huns_value;
 
-                /*load_value = 1;
-
-                if (load_value == 1) got_value <= 1;*/
-
             end
 
-            /* increment bcd input and track
-            it onto the leds */
             if (bcd_press == 3) got_value = 1;
 
             bcd_press = bcd_press + 1;

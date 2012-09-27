@@ -38,15 +38,14 @@ module top (
 /*--                BCD and 7-Seg Display Driver                --*/
 /*--============================================================--*/
 
+    wire clk_1;
     assign clk = CLOCK_50;
     assign rst = ~(KEY[3]);
 
     assign sign_on = SW[9];
+    assign LEDG[7] = sign_on;
     assign bcd_input = ~(KEY[0]);
     
-    //assign LEDG[4] = sign_mode_changed;
-
-
     /* bcd outputs from bcd input module */
     wire [3:0] save_temp_ones_value;
     wire [3:0] save_temp_tens_value;
@@ -60,36 +59,20 @@ module top (
     wire [3:0] curr_tens_value;
     wire [3:0] curr_huns_value;
 
-    wire sign_mode_changed;
-
     wire [3:0] sign;
+    wire got_value;
+    wire sign_mode_changed;
 
     wire [2:0] bcd_press;
     assign LEDG[6:4] = bcd_press;
-
-    wire got_value;
-
-    assign LEDG[7] = sign_on;
-
-    wire clk_1;
-
-    wire [2:0] diff_read;
 
     wire [3:0] bcd_num = SW[3:0];
 
     wire negative;
 
-    /* keeps track of the bcd input */
-    //wire [3:0] track_inp;
-    //assign LEDG[3:0] = out_tens;
-
 /*--============================================================--*/
 /*--                        MULTIPLEXERS                        --*/
 /*--============================================================--*/
-
-    /* if bcd count is satisfied go ahead and assign the switches
-        to the mux output which will get displayed onto the 7 seg,
-            otherwise bcd number will be displayed onto the 7 seg */
 
     reg [2:0] disp_state = 0;
 
@@ -154,7 +137,6 @@ module top (
         .rst(rst),
         .bcd_num(bcd_num),
 
-        //.diff_read(diff_read),
         .got_value(got_value),
 
         .save_temp_ones_value(save_temp_ones_value),

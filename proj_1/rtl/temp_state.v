@@ -21,11 +21,9 @@
 
 module temp_state (
     input rst,
-
     input [2:0] bcd_press,
     
     input got_value,
-
     input sign_mode_changed,
 
     input [3:0] out_ones,
@@ -40,12 +38,12 @@ module temp_state (
     output reg [9:0] alarm = 0
 );
 
-    reg [2:0] diff_read = 0;
-
     parameter NORMAL    = 4'b0001;
     parameter BORDER    = 4'b0010;
     parameter ATTENTION = 4'b0100;
     parameter EMERGENCY = 4'b1000;
+
+    reg [2:0] diff_read = 0;
 
     wire [11:0] temp_total = {(temp_huns_value), (temp_tens_value), (temp_ones_value)};
     wire [11:0] diff_total = {(out_huns), (out_tens), (out_ones)};

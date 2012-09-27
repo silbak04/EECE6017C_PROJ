@@ -62,8 +62,6 @@ module bcd_subtractor (
             if (out_tens > 9) out_tens = out_tens - 6;
             if (out_huns > 9) out_huns = out_huns - 6;
 
-            /* since temp is > current input, 
-            our change is negative */
             negative = 0;
 
         end else begin
@@ -84,11 +82,7 @@ module bcd_subtractor (
             if (out_tens > 9) out_tens = out_tens - 6;
             if (out_huns > 9) out_huns = out_huns - 6;
 
-            /* since current input is > temp, 
-            our change is positive */
             negative = 1;
-            /*if (total == 0) negative = 0;
-            else negative = 1;*/
 
         end
 

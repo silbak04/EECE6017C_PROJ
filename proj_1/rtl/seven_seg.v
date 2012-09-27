@@ -21,8 +21,9 @@
 
 module seven_seg (
     input [3:0] bcd,
-    output reg [6:0] seg,
-    input en
+    input en,
+
+    output reg [6:0] seg
 );
 
     initial seg = 0;

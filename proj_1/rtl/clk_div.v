@@ -10,7 +10,6 @@
 //--           John Brady                                                       --
 //--           Nick Foltz                                                       --
 //--           Camiren Stewart                                                  --
-//--           silbak04@gmail.com                                               --
 //--                                                                            --
 //-- DESCRIPTION: divides the clock down to ~1.5Hz                              --
 //--                                                                            --
