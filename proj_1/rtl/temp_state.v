@@ -66,14 +66,13 @@ module temp_state (
 
         end else begin
 
-
-                if (diff_read > 2) diff_read = 2;
-                else diff_read = diff_read + 1;
+            if (diff_read > 2) diff_read = 2;
+            else diff_read = diff_read + 1;
 
             if (diff_read == 2 && 
                 diff_total >= 12'h050) begin
 
-                alarm = 10'b1111111111;
+                alarm = 10'b0111111110;
                 state = EMERGENCY;
 
             end

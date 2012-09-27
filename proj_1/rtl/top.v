@@ -65,10 +65,11 @@ module top (
     wire [3:0] sign;
 
     wire [2:0] bcd_press;
-    assign LEDG[7:4] = out_tens;
+    assign LEDG[6:4] = bcd_press;
 
     wire got_value;
-    //assign LEDG[7] = got_value;
+
+    assign LEDG[7] = sign_on;
 
     wire clk_1;
 

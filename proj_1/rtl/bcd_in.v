@@ -67,6 +67,7 @@ module bcd_in (
             bcd_press = 0;
 
             //diff_read = 0;
+            //load_value = 0;
             got_value = 0;
 
         /* Else if input button is released */
@@ -94,14 +95,15 @@ module bcd_in (
                 temp_tens_value = curr_tens_value;
                 temp_huns_value = curr_huns_value;
 
+                /*load_value = 1;
 
-                got_value <= 1;
+                if (load_value == 1) got_value <= 1;*/
 
             end
 
             /* increment bcd input and track
             it onto the leds */
-            //if (bcd_press == 3) got_value = 1;
+            if (bcd_press == 3) got_value = 1;
 
             bcd_press = bcd_press + 1;
 

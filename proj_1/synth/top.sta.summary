@@ -3,31 +3,31 @@ TimeQuest Timing Analyzer Summary
 ------------------------------------------------------------
 
 Type  : Slow Model Setup 'bcd_in:bcd_in|got_value'
-Slack : -8.832
-TNS   : -84.251
+Slack : -9.600
+TNS   : -66.746
 
 Type  : Slow Model Setup 'CLOCK_50'
-Slack : -3.030
-TNS   : -48.099
+Slack : -3.036
+TNS   : -48.093
 
 Type  : Slow Model Setup 'KEY[0]'
-Slack : -1.696
-TNS   : -46.456
+Slack : -1.664
+TNS   : -46.661
 
 Type  : Slow Model Setup 'clk_div:one_hz_sig|q_out_1[25]'
-Slack : 0.126
+Slack : 0.130
 TNS   : 0.000
 
-Type  : Slow Model Hold 'KEY[0]'
-Slack : -2.879
-TNS   : -2.879
-
 Type  : Slow Model Hold 'CLOCK_50'
-Slack : -2.115
-TNS   : -2.115
+Slack : -2.113
+TNS   : -2.113
+
+Type  : Slow Model Hold 'KEY[0]'
+Slack : -2.094
+TNS   : -2.094
 
 Type  : Slow Model Hold 'bcd_in:bcd_in|got_value'
-Slack : 0.443
+Slack : 0.445
 TNS   : 0.000
 
 Type  : Slow Model Hold 'clk_div:one_hz_sig|q_out_1[25]'
@@ -35,11 +35,11 @@ Slack : 0.445
 TNS   : 0.000
 
 Type  : Slow Model Recovery 'bcd_in:bcd_in|got_value'
-Slack : -1.732
-TNS   : -16.781
+Slack : -2.823
+TNS   : -16.999
 
 Type  : Slow Model Removal 'bcd_in:bcd_in|got_value'
-Slack : 1.473
+Slack : 2.588
 TNS   : 0.000
 
 Type  : Slow Model Minimum Pulse Width 'CLOCK_50'
@@ -52,39 +52,39 @@ TNS   : -4.075
 
 Type  : Slow Model Minimum Pulse Width 'KEY[0]'
 Slack : -1.469
-TNS   : -44.239
+TNS   : -46.683
 
 Type  : Slow Model Minimum Pulse Width 'bcd_in:bcd_in|got_value'
 Slack : -0.611
-TNS   : -13.442
+TNS   : -9.776
 
 Type  : Slow Model Minimum Pulse Width 'clk_div:one_hz_sig|q_out_1[25]'
 Slack : -0.611
 TNS   : -2.444
 
 Type  : Fast Model Setup 'bcd_in:bcd_in|got_value'
-Slack : -2.593
-TNS   : -24.481
+Slack : -2.891
+TNS   : -19.849
 
 Type  : Fast Model Setup 'CLOCK_50'
-Slack : -0.688
-TNS   : -6.000
+Slack : -0.691
+TNS   : -6.003
 
 Type  : Fast Model Setup 'KEY[0]'
-Slack : -0.174
-TNS   : -2.140
+Slack : -0.139
+TNS   : -1.354
 
 Type  : Fast Model Setup 'clk_div:one_hz_sig|q_out_1[25]'
-Slack : 0.638
+Slack : 0.640
 TNS   : 0.000
 
 Type  : Fast Model Hold 'CLOCK_50'
-Slack : -1.559
-TNS   : -1.559
+Slack : -1.558
+TNS   : -1.558
 
 Type  : Fast Model Hold 'KEY[0]'
-Slack : -1.404
-TNS   : -1.404
+Slack : -1.073
+TNS   : -1.073
 
 Type  : Fast Model Hold 'bcd_in:bcd_in|got_value'
 Slack : 0.215
@@ -95,11 +95,11 @@ Slack : 0.215
 TNS   : 0.000
 
 Type  : Fast Model Recovery 'bcd_in:bcd_in|got_value'
-Slack : -0.563
-TNS   : -5.377
+Slack : -0.972
+TNS   : -5.878
 
 Type  : Fast Model Removal 'bcd_in:bcd_in|got_value'
-Slack : 0.762
+Slack : 1.202
 TNS   : 0.000
 
 Type  : Fast Model Minimum Pulse Width 'CLOCK_50'
@@ -112,11 +112,11 @@ TNS   : -3.380
 
 Type  : Fast Model Minimum Pulse Width 'KEY[0]'
 Slack : -1.222
-TNS   : -36.222
+TNS   : -38.222
 
 Type  : Fast Model Minimum Pulse Width 'bcd_in:bcd_in|got_value'
 Slack : -0.500
-TNS   : -11.000
+TNS   : -8.000
 
 Type  : Fast Model Minimum Pulse Width 'clk_div:one_hz_sig|q_out_1[25]'
 Slack : -0.500
