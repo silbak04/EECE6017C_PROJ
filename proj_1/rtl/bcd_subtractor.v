@@ -86,8 +86,9 @@ module bcd_subtractor (
 
             /* since current input is > temp, 
             our change is positive */
-            if (total == 0) negative = 0;
-            else negative = 1;
+            negative = 1;
+            /*if (total == 0) negative = 0;
+            else negative = 1;*/
 
         end
 

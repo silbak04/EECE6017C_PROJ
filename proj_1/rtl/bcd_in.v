@@ -39,13 +39,9 @@ module bcd_in (
     output reg [3:0] curr_huns_value = 0,
 
     output reg [2:0] bcd_press = 0,
-    output reg [3:0] track_inp = 1,
-
-    output reg [2:0] diff_read = 0,
+    //output reg [2:0] diff_read = 0,
 
     output reg got_value = 0,
-
-    output reg temp_sign_mode = 0,
 
     output sign_mode_changed
 );
@@ -68,11 +64,9 @@ module bcd_in (
             save_temp_tens_value = 0;
             save_temp_huns_value = 0;
 
-
             bcd_press = 0;
-            track_inp = 1;
 
-            diff_read = 0;
+            //diff_read = 0;
             got_value = 0;
 
         /* Else if input button is released */
@@ -101,20 +95,14 @@ module bcd_in (
                 temp_huns_value = curr_huns_value;
 
 
-                got_value = 1;
-
-                diff_read = diff_read + 1;
-
-                if (diff_read > 2) diff_read = 2;
-
-                //track_inp = 1;
+                got_value <= 1;
 
             end
 
-            if (bcd_press == 3) got_value = 1;
-
             /* increment bcd input and track
             it onto the leds */
+            //if (bcd_press == 3) got_value = 1;
+
             bcd_press = bcd_press + 1;
 
             if (bcd_press == 4) bcd_press = 0;
@@ -122,7 +110,6 @@ module bcd_in (
         end
 
     end
-
 
     reg mode_changed_pos = 0; // positive edge detected
     reg mode_changed_neg = 0; // negative edge detected
@@ -136,7 +123,5 @@ module bcd_in (
         else mode_changed_neg = 1;
 
     assign sign_mode_changed = mode_changed_pos | mode_changed_neg;
-
-
 
 endmodule

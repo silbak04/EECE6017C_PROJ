@@ -23,12 +23,9 @@ module temp_state (
     input rst,
 
     input [2:0] bcd_press,
-    input [2:0] diff_read,
     
     input got_value,
 
-    //input temp_sign_mode,
-    //input save_temp_sign_mode,
     input sign_mode_changed,
 
     input [3:0] out_ones,
@@ -43,17 +40,12 @@ module temp_state (
     output reg [9:0] alarm = 0
 );
 
-    reg sign_change = 0;
+    reg [2:0] diff_read = 0;
 
-    /*parameter NORMAL    = 4'b0001;
+    parameter NORMAL    = 4'b0001;
     parameter BORDER    = 4'b0010;
-    parameter WARNING   = 4'b0100;
-    parameter EMERGENCY = 4'b1000;*/
-
-    parameter NORMAL    = 1;
-    parameter BORDER    = 2;
-    parameter WARNING   = 3;
-    parameter EMERGENCY = 4;
+    parameter ATTENTION = 4'b0100;
+    parameter EMERGENCY = 4'b1000;
 
     wire [11:0] temp_total = {(temp_huns_value), (temp_tens_value), (temp_ones_value)};
     wire [11:0] diff_total = {(out_huns), (out_tens), (out_ones)};
@@ -64,6 +56,7 @@ module temp_state (
 
             alarm = 0;
             state = NORMAL;
+            diff_read = 0;
 
         /* checks if a sign change has occurred */
         end else if (sign_mode_changed == 1) begin
@@ -73,9 +66,21 @@ module temp_state (
 
         end else begin
 
+
+                if (diff_read > 2) diff_read = 2;
+                else diff_read = diff_read + 1;
+
+            if (diff_read == 2 && 
+                diff_total >= 12'h050) begin
+
+                alarm = 10'b1111111111;
+                state = EMERGENCY;
+
+            end
+
             /* checks to see if temperature is 
                 between 0 and 39.9 */
-            if (temp_total >= 12'h000 && 
+            else if (temp_total >= 12'h000 && 
                 temp_total <  12'h400) begin
 
                     alarm = 10'b0000000000;
@@ -85,7 +90,7 @@ module temp_state (
 
             /* checks to see if temperature is 
                 between 40.0 and 46.9 */
-            if (temp_total >= 12'h400 && 
+            else if (temp_total >= 12'h400 && 
                 temp_total <  12'h470) begin
 
                     alarm = 10'b0000000000;
@@ -95,31 +100,20 @@ module temp_state (
 
             /* checks to see if temperature is 
                 between 47.0 and 49.9 */
-            if (temp_total >= 12'h470 && 
+            else if (temp_total >= 12'h470 && 
                 temp_total <  12'h500) begin
             
                     alarm = 10'b1010101010;
-                    state = WARNING;
+                    state = ATTENTION;
 
             end
 
             /* checks to see if temperature is 
                 50 degrees or greater */
-            if (temp_total >= 12'h500) begin
+            else if (temp_total >= 12'h500) begin
             
                     alarm = 10'b1111111111;
                     state = EMERGENCY;
-
-            end
-
-            if (diff_read == 2) begin
-
-                if (diff_total >= 12'h050) begin
-
-                    alarm = 10'b1111111111;
-                    state = EMERGENCY;
-
-                end
 
             end
 

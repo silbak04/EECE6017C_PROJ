@@ -44,7 +44,7 @@ module top (
     assign sign_on = SW[9];
     assign bcd_input = ~(KEY[0]);
     
-    assign LEDG[4] = sign_mode_changed;
+    //assign LEDG[4] = sign_mode_changed;
 
 
     /* bcd outputs from bcd input module */
@@ -65,7 +65,7 @@ module top (
     wire [3:0] sign;
 
     wire [2:0] bcd_press;
-    assign LEDG[7:5] = bcd_press;
+    assign LEDG[7:4] = out_tens;
 
     wire got_value;
     //assign LEDG[7] = got_value;
@@ -77,8 +77,6 @@ module top (
     wire [3:0] bcd_num = SW[3:0];
 
     wire negative;
-
-    wire [2:0] counter = 0;
 
     /* keeps track of the bcd input */
     //wire [3:0] track_inp;
@@ -93,10 +91,14 @@ module top (
             otherwise bcd number will be displayed onto the 7 seg */
 
     reg [2:0] disp_state = 0;
+
     always @(posedge clk_2) begin
+
         disp_state = disp_state + 1;
+
         if (disp_state == 4)
             disp_state = 0;
+
     end
 
     wire [3:0] s_0_value;
@@ -136,7 +138,6 @@ module top (
         (disp_state == 2) ? (negative ? `NEGATIVE: `OFF) :
         `OFF;
 
-
     wire s_0_en = (bcd_press == 0) ? clk_1 : 1;
     wire s_1_en = (bcd_press == 1) ? clk_1 : 1;
     wire s_2_en = (bcd_press == 2) ? clk_1 : 1;
@@ -152,7 +153,7 @@ module top (
         .rst(rst),
         .bcd_num(bcd_num),
 
-        .diff_read(diff_read),
+        //.diff_read(diff_read),
         .got_value(got_value),
 
         .save_temp_ones_value(save_temp_ones_value),
@@ -196,7 +197,6 @@ module top (
         .rst(rst),
         .bcd_press(bcd_press),
 
-        .diff_read(diff_read),
         .got_value(got_value),
 
         .state(state),

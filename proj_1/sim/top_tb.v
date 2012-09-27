@@ -18,15 +18,10 @@
 /*--===========================================================================--*/
 
 
-/*`define STATE_NORMAL     4'b0001
-`define STATE_BORDERLINE     4'b0010
-`define STATE_ATTENTION   4'b0100
-`define STATE_EMERGENCY  4'b1000*/
-
-`define STATE_NORMAL     1
-`define STATE_BORDERLINE     2
-`define STATE_ATTENTION   3
-`define STATE_EMERGENCY  4
+`define STATE_NORMAL        4'b0001
+`define STATE_BORDERLINE    4'b0010
+`define STATE_ATTENTION     4'b0100
+`define STATE_EMERGENCY     4'b1000
 
 module top_tb();
 
@@ -213,7 +208,7 @@ module top_tb();
             #50 pulse_enter;            // latch in that digit
             #50;
 
-            $write("%0d%0d%0d  |  %0d%0d%0d | %0d | %0d ",
+            $write("%0d%0d%0d  |  %0d%0d%0d | %0d | %0d | %b",
                 uut.curr_huns_value,
                 uut.curr_tens_value,
                 uut.curr_ones_value,
@@ -224,7 +219,8 @@ module top_tb();
 
                 uut.sign_mode_changed,
 
-                uut.temp_state.state
+                uut.temp_state.state,
+                uut.temp_state.alarm
             );
 
             write_state_name(uut.temp_state.state);
@@ -234,7 +230,7 @@ module top_tb();
     // checks the current state of the system against
     // the parameter. displays pass or fail
     task check;
-        input [2:0] s;
+        input [3:0] s;
         begin
             if (uut.state != s)  begin
                 $write("<--[FAIL]-- Expected state: %d ", s);
@@ -248,7 +244,7 @@ module top_tb();
     // given a system state name print out a code
     // indicating which state it is
     task write_state_name;
-        input [2:0] s;
+        input [3:0] s;
         begin
             case (s)
                 `STATE_NORMAL: $write("(N)");
