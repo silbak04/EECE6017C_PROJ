@@ -1,0 +1,12 @@
+reset
+
+# output
+set terminal png enhanced font "Vera,12" size 1024, 768
+set output "rng_tb.png"
+
+binwidth=1
+bin(x,width)=width*floor(x/width)+binwidth/2
+
+set boxwidth binwidth
+
+plot 'rng_tb.log' using (bin($1,binwidth)):(1.0) smooth freq with boxes notitle
