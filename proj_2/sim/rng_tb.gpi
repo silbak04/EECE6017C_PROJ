@@ -1,7 +1,7 @@
 reset
 
 # output
-set terminal png enhanced font "Vera,12" size 1024, 768
+set terminal png enhanced font "/usr/share/fonts/ttf-bitstream-vera/Vera.ttf,12" size 1024, 768
 set output "rng_tb.png"
 
 binwidth=1
