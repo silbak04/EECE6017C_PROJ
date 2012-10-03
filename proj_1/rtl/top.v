@@ -156,9 +156,7 @@ module top (
 
         .bcd_input(bcd_input),
         .bcd_press(bcd_press)
-        //.track_inp(track_inp)
     );
-
 
     /* ~1 hz clock */
     clk_div one_hz_sig (clk, rst, clk_1, clk_2);
