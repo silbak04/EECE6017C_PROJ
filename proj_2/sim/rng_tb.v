@@ -16,20 +16,18 @@
 //--================================= VERILOG ==================================--
 /*--===========================================================================--*/
 
-//`define     MAXIMUM     2**8 
-
 module rng_tb();
 
     reg clk;
     reg rst;
-    reg switch;
+    reg start;
 
     wire [7:0] out;
 
     rng dut(
         .clk(clk),
         .rst(~rst),
-        .switch(switch),
+        .start(start),
         .out(out)
     );
 
@@ -43,17 +41,13 @@ module rng_tb();
 
     initial begin
 
-        $display("---------------------------");
-        $display("  RANDOM NUMBER GENERATOR  ");
-        $display("---------------------------");
-
         clk = 0;
         rst = 1;
 
-        #100 switch = 1;
+        start = 1;
+        $monitor("%d", out);
 
-        #5000;
-
+        #256000;
         $finish;
 
     end
