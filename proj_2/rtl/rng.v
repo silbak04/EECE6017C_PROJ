@@ -19,7 +19,7 @@
 module rng (
     input clk,
     input rst,
-    input switch,
+    input start,
 
     output reg [7:0] out = 0
 );
@@ -34,7 +34,7 @@ module rng (
         
         if (rst) out = seed;
 
-        else if (switch) begin
+        else if (start) begin
 
                 out = out << 1;
                 out[0] = ~(out[3] ^ out[4] ^ out[5] ^ out[7]);
