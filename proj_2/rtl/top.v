@@ -59,11 +59,9 @@ module top (
 
     wire [7:0] div_num;
 
-    div_3 div_3 (
-        .clk(clk),
-        .rst(rst),
-        .in(rand_num),
-        .out(div_num)
+    divide_by_three divider1 (
+        .dividend(rand_num),
+        .quotient(div_num)
     );
 
 /*--============================================================--*/
