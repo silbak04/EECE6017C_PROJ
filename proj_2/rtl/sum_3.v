@@ -2,7 +2,7 @@
 //--================================= VERILOG ==================================--
 //--============================================================================--
 //--                                                                            --
-//-- FILE NAME: moving_avg.v                                                    --
+//-- FILE NAME: sum_3.v                                                         --
 //--                                                                            --
 //-- DATE: 01.OCT.2012                                                          --
 //--                                                                            --
@@ -14,12 +14,12 @@
 //--================================= VERILOG ==================================--
 /*--===========================================================================--*/
 
-module moving_avg(
+module sum_3 (
     input clk,
     input rst,
-    input signed [7:0] num,
-    output signed [7:0] sum
+    input signed [7:0] in,
 
+    output signed [7:0] out
 );
 
     reg signed [7:0] x = 0;
@@ -27,11 +27,10 @@ module moving_avg(
     reg signed [7:0] z = 0;
 
     always @ (posedge clk, posedge rst) begin
-        if(rst) begin 
+        if (rst) begin 
             x <= 0;
             y <= 0;
             z <= 0;
-            sum <= 0;
         end else begin
             x <= num;
             y <= x;
@@ -39,6 +38,6 @@ module moving_avg(
         end
     end
 
-    assign sum = (x + y + z);
+    assign out = (x + y + z);
 
 endmodule

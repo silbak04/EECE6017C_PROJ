@@ -26,21 +26,15 @@ module rng (
 
     reg [7:0] seed = 10101001;
 
-/*--============================================================--*/
-/*--                LINEAR FEEDBACK SHIFT REGISTER              --*/
-/*--============================================================--*/
-
     always @ (posedge clk, posedge rst) begin
         
         if (rst) out = seed;
-
         else if (start) begin
 
                 out = out << 1;
                 out[0] = ~(out[3] ^ out[4] ^ out[5] ^ out[7]);
 
             end
-
         end
     
 endmodule

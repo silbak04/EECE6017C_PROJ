@@ -18,79 +18,24 @@ module counter (
     input clk,
     input rst,
     
-    output [6:0] sev_seg0,
-    output [6:0] sev_seg1,
-    output [6:0] sev_seg2,
-    output [6:0] sev_seg3
+    output reg [3:0] ET0=0,
+    output reg [3:0] ET1=0,
+    output reg [3:0] ET2=0,
+    output reg [3:0] ET3=0,
+    output reg [3:0] ET4=0,
+    output reg [3:0] ET5=0,
+    output reg [3:0] ET6=0,
+    output reg [3:0] ET7=0,
+    output reg [3:0] ET8=0,
+    output reg [3:0] ET9=0,
+    output reg [3:0] ET10=0,
+
+    output reg [3:0] cur_exp=0
 );
 
-    wire s0_enable = 1;
-    wire s1_enable = 1;
-    wire s2_enable = 1;
-    wire s3_enable = 1;
-    
-    wire [3:0] seg0_bcd;
-    wire [3:0] seg1_bcd;
-    wire [3:0] seg2_bcd;
-    wire [3:0] seg3_bcd;
-
-    // Decimal Register holders
-    reg [3:0]  ET0=0;
-    reg [3:0]  ET1=0;
-    reg [3:0]  ET2=0;
-    reg [3:0]  ET3=0;
-    reg [3:0]  ET4=0;
-    reg [3:0]  ET5=0;
-    reg [3:0]  ET6=0;
-    reg [3:0]  ET7=0;
-    reg [3:0]  ET8=0;
-    reg [3:0]  ET9=0;
-    reg [3:0]  ET10=0;
-    reg [3:0]  cur_exp=0;
-
-    /* Set up LED 7-Segment Displays */
-    seven_seg s0 (seg0_bcd, s0_enable, sev_seg0);
-    seven_seg s1 (seg1_bcd, s1_enable, sev_seg1);
-    seven_seg s2 (seg2_bcd, s2_enable, sev_seg2);
-    seven_seg s3 (seg3_bcd, s3_enable, sev_seg3);
- 
-    /* 3rd 7-seg always shows 'E' */
-    assign seg2_bcd = 4'hE;
-    
-    /* 4th 7-seg always shows exponent digit */
-    assign seg3_bcd = cur_exp[3:0];
-    
-    
-    /* Multiplexers */
-    assign seg0_bcd =
-    (cur_exp == 4'h0)  ? ET1[3:0]:
-    (cur_exp == 4'h1)  ? ET2[3:0]:
-    (cur_exp == 4'h2)  ? ET3[3:0]:
-    (cur_exp == 4'h3)  ? ET4[3:0]:
-    (cur_exp == 4'h4)  ? ET5[3:0]:
-    (cur_exp == 4'h5)  ? ET6[3:0]:
-    (cur_exp == 4'h6)  ? ET7[3:0]:
-    (cur_exp == 4'h7)  ? ET8[3:0]:
-    (cur_exp == 4'h8)  ? ET9[3:0]:
-    (cur_exp == 4'h9)  ? ET10[3:0]:
-    4'h0;
-    
-    assign seg1_bcd = 
-    (cur_exp == 4'h0)  ? ET0[3:0]:
-    (cur_exp == 4'h1)  ? ET1[3:0]:
-    (cur_exp == 4'h2)  ? ET2[3:0]:
-    (cur_exp == 4'h3)  ? ET3[3:0]:
-    (cur_exp == 4'h4)  ? ET4[3:0]:
-    (cur_exp == 4'h5)  ? ET5[3:0]:
-    (cur_exp == 4'h6)  ? ET6[3:0]:
-    (cur_exp == 4'h7)  ? ET7[3:0]:
-    (cur_exp == 4'h8)  ? ET8[3:0]:
-    (cur_exp == 4'h9)  ? ET9[3:0]:
-    4'h0;
-    
-    always @(posedge clk or negedge rst)
+    always @(posedge clk, posedge rst)
     begin
-        if (~rst)
+        if (rst)
         begin
             ET0<=4'h0;
             ET1<=4'h0;
