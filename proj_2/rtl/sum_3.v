@@ -32,7 +32,7 @@ module sum_3 (
             y <= 0;
             z <= 0;
         end else begin
-            x <= num;
+            x <= in;
             y <= x;
             z <= y;
         end

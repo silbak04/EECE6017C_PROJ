@@ -20,12 +20,15 @@ module sum_3_tb();
 
     reg clk;
     reg rst;
-    reg signed [7:0] num;
+    reg signed [7:0] in;
+
+    wire signed [7:0] out;
 
     sum_3 dut(
-        .num(num),
         .clk(clk),
-        .rst(~rst)
+        .rst(~rst),
+        .in(in),
+        .out(out)
     );
 
     initial begin
@@ -39,14 +42,14 @@ module sum_3_tb();
     initial begin
 
         clk = 0;
-        num = 0;
+        in = 0;
         rst = 0;
 
-        #50 num = 2;
-        #50 num = 1;
-        #50 num = -1;
+        #50 in = 2;
+        #50 in = 1;
+        #50 in = -1;
 
-        //$display("num : %d", num);
+        //$display("in : %d", in);
 
         #1000;
 
