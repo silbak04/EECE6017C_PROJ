@@ -1,3 +1,5 @@
+`include "constants.vh"
+
 /*--==========================================================================--*/
 //--================================= VERILOG ==================================--
 //--============================================================================--
@@ -18,125 +20,178 @@ module counter (
     input clk,
     input rst,
     
-    output reg [3:0] ET0=0,
-    output reg [3:0] ET1=0,
-    output reg [3:0] ET2=0,
-    output reg [3:0] ET3=0,
-    output reg [3:0] ET4=0,
-    output reg [3:0] ET5=0,
-    output reg [3:0] ET6=0,
-    output reg [3:0] ET7=0,
-    output reg [3:0] ET8=0,
-    output reg [3:0] ET9=0,
-    output reg [3:0] ET10=0,
-
-    output reg [3:0] cur_exp=0
+    output [6:0] sev_seg0,
+    output [6:0] sev_seg1,
+    output [6:0] sev_seg2,
+    output [6:0] sev_seg3
 );
+  
+    wire [3:0] seg0_`BCD;
+    wire [3:0] seg1_`BCD;
+    wire [3:0] seg2_`BCD;
+    wire [3:0] seg3_`BCD;
 
-    always @(posedge clk, posedge rst)
+    // Decimal Register holders
+    reg [3:0]  dec_ones=0;
+    reg [3:0]  dec_tens=0;
+    reg [3:0]  dec_hund=0;
+    reg [3:0]  dec_thous=0;
+    reg [3:0]  dec_ten_thous=0;
+    reg [3:0]  dec_hund_thous=0;
+    reg [3:0]  dec_million=0;
+    reg [3:0]  dec_ten_million=0;
+    reg [3:0]  dec_hund_million=0;
+    reg [3:0]  dec_billion=0;
+    reg [3:0]  dec_ten_billion=0;
+    reg [3:0]  cur_exp=0;
+
+    /* Set up LED 7-Segment Displays */
+    seven_seg s0 (seg0_`BCD, sev_seg0);
+    seven_seg s1 (seg1_`BCD, sev_seg1);
+    seven_seg s2 (seg2_`BCD, sev_seg2);
+    seven_seg s3 (seg3_`BCD, sev_seg3);
+ 
+    /* 3rd 7-seg always shows 'E' */
+    assign seg2_`BCD = `BCD_E;
+    
+    /* 4th 7-seg always shows exponent digit */
+    assign seg3_`BCD = cur_exp[3:0];
+    
+    
+    /* Multiplexers */
+    
+    // 10s Digits display of XXEY
+    assign seg0_`BCD =
+    (cur_exp == `BCD_0)  ? dec_tens[3:0]:
+    (cur_exp == `BCD_1)  ? dec_hund[3:0]:
+    (cur_exp == `BCD_2)  ? dec_thous[3:0]:
+    (cur_exp == `BCD_3)  ? dec_ten_thous[3:0]:
+    (cur_exp == `BCD_4)  ? dec_hund_thous[3:0]:
+    (cur_exp == `BCD_5)  ? dec_million[3:0]:
+    (cur_exp == `BCD_6)  ? dec_ten_million[3:0]:
+    (cur_exp == `BCD_7)  ? dec_hund_million[3:0]:
+    (cur_exp == `BCD_8)  ? dec_billion[3:0]:
+    (cur_exp == `BCD_9)  ? dec_ten_billion[3:0]:
+    `BCD_0;
+    
+    // 1s Digits display of XXEY
+    assign seg1_`BCD = 
+    (cur_exp == `BCD_0) ? dec_ones[3:0]:
+    (cur_exp == `BCD_0) ? dec_tens[3:0]:
+    (cur_exp == `BCD_0) ? dec_hund[3:0]:
+    (cur_exp == `BCD_0) ? dec_thous[3:0]:
+    (cur_exp == `BCD_0) ? dec_ten_thous[3:0]:
+    (cur_exp == `BCD_0) ? dec_hund_thous[3:0]:
+    (cur_exp == `BCD_0) ? dec_million[3:0]:
+    (cur_exp == `BCD_0) ? dec_ten_million[3:0]:
+    (cur_exp == `BCD_0) ? dec_hund_million[3:0]:
+    (cur_exp == `BCD_0) ? dec_billion[3:0]:
+    `BCD_0;
+    
+    always @(posedge clk or negedge rst)
     begin
-        if (rst)
+        if (~rst)
         begin
-            ET0<=4'h0;
-            ET1<=4'h0;
-            ET2<=4'h0;
-            ET3<=4'h0;
-            ET4<=4'h0;
-            ET5<=4'h0;
-            ET6<=4'h0;
-            ET7<=4'h0;
-            ET8<=4'h0;
-            ET9<=4'h0;
-            ET10<=4'h0;
-            cur_exp<=4'h0;    
+            dec_ones<=`BCD_0;
+            dec_tens<=`BCD_0;
+            dec_hund<=`BCD_0;
+            dec_thous<=`BCD_0;
+            dec_ten_thous<=`BCD_0;
+            dec_hund_thous<=`BCD_0;
+            dec_million<=`BCD_0;
+            dec_ten_million<=`BCD_0;
+            dec_hund_million<=`BCD_0;
+            dec_billion<=`BCD_0;
+            dec_ten_billion<=`BCD_0;
+            cur_exp<=`BCD_0;    
         end // rst
         else
         begin
-            ET0 = ET0+1;
+            dec_ones = dec_ones+1;
             
-            if (ET0 == 4'hA)
+            if (dec_ones == `BCD_10)
             begin
-                ET0=0;
-                ET1 = ET1+1;
+                dec_ones=0;
+                dec_tens = dec_tens+1;
                 
-                if (ET1 == 4'hA)
+                if (dec_tens == `BCD_10)
                 begin
-                    ET1=0;
-                    ET2 = ET2+1;
+                    dec_tens=0;
+                    dec_hund = dec_hund+1;
                     if (cur_exp<1)
                         cur_exp=cur_exp+1;
                     
-                    if (ET2 == 4'hA)
+                    if (dec_hund == `BCD_10)
                     begin
-                        ET2=0;
-                        ET3 = ET3+1;
+                        dec_hund=0;
+                        dec_thous = dec_thous+1;
                         if (cur_exp<2)
                             cur_exp=cur_exp+1;
                         
-                        if (ET3 == 4'hA)
+                        if (dec_thous == `BCD_10)
                         begin
-                            ET3=0;
-                            ET4 = ET4 + 1;
+                            dec_thous=0;
+                            dec_ten_thous = dec_ten_thous + 1;
                             if (cur_exp<3)
                                 cur_exp=cur_exp+1;
                             
-                            if (ET4 == 4'hA)
+                            if (dec_ten_thous == `BCD_10)
                             begin
-                                ET4=0;
-                                ET5 = ET5 + 1;
+                                dec_ten_thous=0;
+                                dec_hund_thous = dec_hund_thous + 1;
                                 if (cur_exp<4)
                                     cur_exp=cur_exp+1;
              
-                                if (ET5 == 4'hA)
+                                if (dec_hund_thous == `BCD_10)
                                 begin
-                                    ET5=0;
-                                    ET6 = ET6+1;
+                                    dec_hund_thous=0;
+                                    dec_million = dec_million+1;
                                     if (cur_exp<5)
                                         cur_exp=cur_exp+1;
                                     
-                                    if (ET6 == 4'hA)
+                                    if (dec_million == `BCD_10)
                                     begin
-                                        ET6=0;
-                                        ET7 = ET7+1;
+                                        dec_million=0;
+                                        dec_ten_million = dec_ten_million+1;
                                         if (cur_exp<6)
                                             cur_exp=cur_exp+1;
                                         
-                                        if (ET7 == 4'hA)
+                                        if (dec_ten_million == `BCD_10)
                                         begin
-                                            ET7=0;
-                                            ET8 = ET8+1;
+                                            dec_ten_million=0;
+                                            dec_hund_million = dec_hund_million+1;
                                             if (cur_exp<7)
                                                 cur_exp=cur_exp+1;
                                             
-                                            if (ET8 == 4'hA)
+                                            if (dec_hund_million == `BCD_10)
                                             begin
-                                                ET8=0;
-                                                ET9 = ET9 + 1;
+                                                dec_hund_million=0;
+                                                dec_billion = dec_billion + 1;
                                                 if (cur_exp<8)
                                                     cur_exp=cur_exp+1;
                                                 
-                                                if (ET9 == 4'hA)
+                                                if (dec_billion == `BCD_10)
                                                 begin
-                                                    ET9=0;
-                                                    ET10 = ET10 + 1;
+                                                    dec_billion=0;
+                                                    dec_ten_billion = dec_ten_billion + 1;
                                                     if (cur_exp<9)
                                                         cur_exp=cur_exp+1;
                                                     
-                                                    if (ET10 == 4'hA)
+                                                    if (dec_ten_billion == `BCD_10)
                                                     begin
-                                                        ET10 = 0;
+                                                        dec_ten_billion = 0;
                                                         cur_exp = 0;
-                                                    end //ET10 = 4'hA                                                    
-                                                end //ET9 = 4'hA
-                                            end //ET8 = 4'hA
-                                        end //ET7 = 4'hA
-                                    end //ET6 == 4'hA
-                                end //ET5 == 4'hA
-                            end //ET4 = 4'hA
-                        end //ET3 = 4'hA
-                    end //ET2 = 4'hA
-                end //ET1 == 4'hA
-            end //ETO == 4'hA
+                                                    end //dec_ten_billion = `BCD_10                                                    
+                                                end //dec_billion = `BCD_10
+                                            end //dec_hund_million = `BCD_10
+                                        end //dec_ten_million = `BCD_10
+                                    end //dec_million == `BCD_10
+                                end //dec_hund_thous == `BCD_10
+                            end //dec_ten_thous = `BCD_10
+                        end //dec_thous = `BCD_10
+                    end //dec_hund = `BCD_10
+                end //dec_tens == `BCD_10
+            end //ETO == `BCD_10
         end //not rst
     end //Always posedge clk
     

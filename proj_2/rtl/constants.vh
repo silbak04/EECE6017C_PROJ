@@ -15,4 +15,6 @@
 `define     BCD_E       4'hE
 `define     BCD_BLANK   4'hF
 
+`define     BCD_10      4'hA
+
 // vim: set filetype=verilog: 
