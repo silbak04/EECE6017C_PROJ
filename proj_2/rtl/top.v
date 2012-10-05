@@ -38,7 +38,8 @@ module top (
     assign clk = CLOCK_50;
     assign rst = ~(KEY[0]);
 
-    assign start = SW[0];
+    //assign start = SW[0];
+    assign start = ~(KEY[3]);
     
 /*--============================================================--*/
 /*--                    RANDOM NUMBER GENERATOR                 --*/
@@ -77,7 +78,8 @@ module top (
         .out(sum_val)
     );
 
-    assign LEDR [7:0] = sum_val;
+    
+    //assign LEDR [7:0] = sum_val;
 
 /*--============================================================--*/
 /*--                          COUNTER                           --*/
@@ -95,12 +97,14 @@ module top (
     wire [3:0] ET9;
     wire [3:0] ET10;
     
-    wire [3:0] cur_e;
+    wire [3:0] cur_exp;
 
     wire [3:0] seg_0;
     wire [3:0] seg_1;
     wire [3:0] seg_2;
     wire [3:0] seg_3;
+
+    wire [7:0] sum;
 
     seven_seg s_0 (seg_0, HEX0);
     seven_seg s_1 (seg_1, HEX1);
@@ -109,10 +113,13 @@ module top (
 
     counter counter (clk, rst, ET0, ET1, ET2, ET3,
                      ET4, ET5, ET6, ET7, ET8, ET9, 
-                     ET10, cur_e);
+                     ET10, cur_exp);
 
-    disp_mux disp_m (start, ET0, ET1, ET2, ET3, ET4,
+    disp_mux disp_m (rst, start, ET0, ET1, ET2, ET3, ET4,
                      ET5, ET6, ET7, ET8, ET9, ET10, 
-                     cur_exp, seg_0, seg_1, seg_2, seg_3);
+                     cur_exp, sum_val, seg_0, seg_1, 
+                     seg_2, seg_3, sum);
+
+    assign LEDR [7:0] = sum;
     
 endmodule
