@@ -9,6 +9,7 @@
 //-- DATE: 9/30/2012                                                            --
 //--                                                                            --
 //-- DESIGNER: Samir Silbak                                                     --
+//-- Verified by: John Brady                                                    --
 //--                                                                            --
 //-- DESCRIPTION: used for testing purposes                                     --
 //--                                                                            --
