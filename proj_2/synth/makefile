@@ -36,6 +36,9 @@ all: smart.log $(PROJECT).asm.rpt $(PROJECT).sta.rpt
 sim: $(SIM_TB).vcd
 view: $(SIM_TB).view
 
+warnings:
+	grep Warning *.rpt | grep -Ev "332060|15610|20028|21074|13410|12241|13024|169174|171167|306006|15706|15705|15710|15709|176250|292013"
+
 clean:
 	rm -rf *.rpt *.chg smart.log *.htm *.eqn *.pin *.sof *.pof *.done *.jdi db incremental_db \
 		*.vvp *.vcd *.log *.list
