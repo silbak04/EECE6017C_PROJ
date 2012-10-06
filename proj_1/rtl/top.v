@@ -127,10 +127,10 @@ module top (
     wire s_2_en = (bcd_press == 2) ? clk_1 : 1;
     wire s_3_en = 1'b1;
 
-    seven_seg s_0 (s_0_value, HEX0, s_0_en);
-    seven_seg s_1 (s_1_value, HEX1, s_1_en);
-    seven_seg s_2 (s_2_value, HEX2, s_2_en);
-    seven_seg s_3 (s_3_value, HEX3, s_3_en);
+    seven_seg s_0 (s_0_value, s_0_en, HEX0);
+    seven_seg s_1 (s_1_value, s_1_en, HEX1);
+    seven_seg s_2 (s_2_value, s_2_en, HEX2);
+    seven_seg s_3 (s_3_value, s_3_en, HEX3);
 
     /* instantiates bcd input module */
     bcd_in bcd_in (
