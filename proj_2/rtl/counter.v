@@ -20,7 +20,6 @@ module counter (
     input clk,
     input rst,
     input en,
-    input stop,
     
     output [6:0] sev_seg0,
     output [6:0] sev_seg1,
@@ -42,7 +41,7 @@ module counter (
     reg [3:0] dec_ten_billion=0;
     reg [3:0] cur_exp=0;
 
-    always @(posedge clk, posedge rst, posedge stop)
+    always @(posedge clk, posedge rst)
     begin
         if (rst)
         begin
@@ -66,7 +65,7 @@ module counter (
 
         end // rst
 
-        else if (stop) begin
+        else if (!en) begin
             dec_ones<=`BCD_0;
             dec_tens<=`BCD_0;
             dec_hund<=`BCD_0;
@@ -81,7 +80,7 @@ module counter (
             cur_exp<=`BCD_0;    
         end
 
-        else if (en)
+        else 
         begin 
             dec_ones = dec_ones+1;
             

@@ -109,7 +109,6 @@ module top (
         .clk(clk),
         .rst(rst),
         .en(run),
-        .stop(stop),
 
         .sev_seg0(HEX0),
         .sev_seg1(HEX1),
