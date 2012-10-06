@@ -19,7 +19,7 @@
 module rng (
     input clk,
     input rst,
-    input start,
+    input en,
 
     output reg [7:0] out = 0
 );
@@ -29,7 +29,7 @@ module rng (
     always @ (posedge clk, posedge rst) begin
         
         if (rst) out = seed;
-        else if (start) begin
+        else if (en) begin
 
                 out = out << 1;
                 out[0] = ~(out[3] ^ out[4] ^ out[5] ^ out[7]);

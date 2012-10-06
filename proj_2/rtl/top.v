@@ -38,9 +38,29 @@ module top (
     assign clk = CLOCK_50;
     assign rst = ~(KEY[0]);
 
-    //assign start = SW[0];
     assign start = ~(KEY[3]);
     
+/*--============================================================--*/
+/*--                      START/STOP PROGRAM                    --*/
+/*--============================================================--*/
+
+    reg run = 0;
+    reg stop = 0;
+
+    always @ (posedge start, posedge rst) begin
+        if (rst) begin
+            run = 0;
+            stop = 0;
+        end else begin
+            run = ~run;
+            if (run == 0) stop = 1;
+            else stop = 0;
+        end
+    end
+
+    assign LEDG[7] = run;
+    assign LEDG[6] = stop;
+
 /*--============================================================--*/
 /*--                    RANDOM NUMBER GENERATOR                 --*/
 /*--============================================================--*/
@@ -49,8 +69,8 @@ module top (
 
     rng rng (
         .clk(clk),
+        .en(run),
         .rst(rst),
-        .start(start),
         .out(rand_num)
     );
 
@@ -74,21 +94,27 @@ module top (
     sum_3 sum_3 (
         .clk(clk),
         .rst(rst),
+        .en(run),
         .in(div_num),
         .out(sum_val)
     );
 
-    
-    //assign LEDR [7:0] = sum_val;
+    assign LEDR [7:0] = sum_val;
 
 /*--============================================================--*/
 /*--                          COUNTER                           --*/
 /*--============================================================--*/
 
-    //wire [7:0] sum;
+    counter counter (
+        .clk(clk),
+        .rst(rst),
+        .en(run),
+        .stop(stop),
 
-    counter counter (clk, rst, HEX0, HEX1, HEX2, HEX3);
+        .sev_seg0(HEX0),
+        .sev_seg1(HEX1),
+        .sev_seg2(HEX2),
+        .sev_seg3(HEX3)
+    );
 
-    assign LEDR [7:0] = sum_val;
-    
 endmodule

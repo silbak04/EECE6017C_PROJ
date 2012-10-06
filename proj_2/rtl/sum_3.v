@@ -17,6 +17,7 @@
 module sum_3 (
     input clk,
     input rst,
+    input en,
     input signed [7:0] in,
 
     output signed [7:0] out
@@ -31,7 +32,7 @@ module sum_3 (
             x <= 0;
             y <= 0;
             z <= 0;
-        end else begin
+        end else if (en) begin
             x <= in;
             y <= x;
             z <= y;
