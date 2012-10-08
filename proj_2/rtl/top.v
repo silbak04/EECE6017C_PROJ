@@ -18,9 +18,7 @@
 
 module top (
     input CLOCK_50,
-
     input [3:0] KEY,
-    input [9:0] SW,
 
     output [7:0] LEDG,
     output [9:0] LEDR,
@@ -78,7 +76,7 @@ module top (
 /*--                        DIVIDE BY THREE                     --*/
 /*--============================================================--*/
 
-    wire [7:0] div_num;
+    wire signed [7:0] div_num;
 
     divide_by_three divider1 (
         .dividend(rand_num),
@@ -89,7 +87,7 @@ module top (
 /*--                          SUM THREE                         --*/
 /*--============================================================--*/
 
-    wire [7:0] sum_val;
+    wire signed [7:0] sum_val;
 
     sum_3 sum_3 (
         .clk(clk),
