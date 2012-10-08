@@ -4,7 +4,8 @@
 //--                                                                            --
 //-- FILE NAME: sum_3.v                                                         --
 //--                                                                            --
-//-- DATE: 01.OCT.2012                                                          --
+//-- DATE : 	01.OCT.2012
+//-- Upated :	08.OCT.2012                                                     --
 //--                                                                            --
 //-- DESIGNER: Camiren Stewart                                                  --
 //--                                                                            --
