@@ -13,17 +13,16 @@
 //--============================================================================--
 //--================================= VERILOG ==================================--
 /*--===========================================================================--*/
-`timescale 10 ps / 1 ps	// Delay time is in mS
+`timescale 10 ps / 1 ps
 
 
 module counter_tb();
 
 
-    reg clk_test = 1'bz;
-    reg clk_onoff = 0;
-    reg reset = 1'bz;
-    reg start_button = 1'bz;
-    reg stop_button = 1'bz;
+    wire clk;
+    reg clk_50 = 1'b0;
+    reg clk_onoff = 1'b0;
+    reg reset = 1'b1;
     
     wire [6:0] sev_seg0;
     wire [6:0] sev_seg1;
@@ -31,33 +30,20 @@ module counter_tb();
     wire [6:0] sev_seg3;
     
     counter uut(
-        .clk(clk_test),
+        .clk(clk),
         .rst(reset),
         .sev_seg0(sev_seg0),
         .sev_seg1(sev_seg1),
         .sev_seg2(sev_seg2),
         .sev_seg3(sev_seg3)
     );
-   
-    always 
-    begin
-        //if (clk_onoff == 1'b1)
-        #1 clk_test = ~clk_test;
-    end
     
-    always @(posedge start_button or negedge stop_button)
+    assign clk = (clk_onoff == 1'b1) ? clk_50: 1'b0;
+   
+    always
     begin
-        if (stop_button == 0)
-            clk_test=1'bz;
-        else
-        begin
-            reset = 0;
-            $display("System Reset");
-            #2 reset = 1;
-            clk_test=0;
-        end
+        #1 clk_50 = ~clk_50;      
     end
-        
    
     initial 
     begin
@@ -87,23 +73,25 @@ module counter_tb();
     
     initial
 	begin
-		$monitor($time, " sev_seg0=%b, sev_seg1=%b, sev_seg2=%b, sev_seg3=%b, start_button=%b, stop_button=%b, reset=%b",
-					sev_seg0, sev_seg1, sev_seg2, sev_seg3, start_button, stop_button, reset);
+		$monitor($time, " | sev_seg3=%h | sev_seg2=%h | sev_seg1=%h | sev_seg0=%h ",
+					uut.seg3_BCD, uut.seg2_BCD, uut.seg1_BCD, uut.seg0_BCD);
 	end
     
     task press_start;
     begin
-        start_button=0;
-        $display("Start Button Pressed");
-        #2 start_button=1;
+        reset = 1'b0;
+        $display("Reset");
+        reset = 1'b1;
+        clk_onoff = 1'b1;
+        $display("Clock On");
+        $display("Time | Seg3 | Seg2 | Seg1 | Seg0");
     end
     endtask
     
     task press_stop;
     begin
-        stop_button=0;
-        $display("Stop Button Pressed");
-        #2 stop_button=1;
+        clk_onoff=1'b0;
+        $display("Clk Off");
     end
     endtask
     
