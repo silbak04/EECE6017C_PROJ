@@ -13,12 +13,15 @@ SRC = \
 	../rtl/rng.v \
 	../rtl/counter.v \
 	../rtl/seven_seg.v \
-	../rtl/sum_3.v
+	../rtl/sum_3.v \
+	../rtl/divide_by_three.v \
+	../rtl/top.v
 
 SIM_SRC = \
 	../sim/rng_tb.v \
 	../sim/counter_tb.v \
-	../sim/sum_3_tb.v
+	../sim/sum_3_tb.v \
+	../sim/top_tb.v
 
 VINCDIR = \
 	-I../rtl/
