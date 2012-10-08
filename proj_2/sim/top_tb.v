@@ -2,13 +2,14 @@
 //--================================= VERILOG ==================================--
 //--============================================================================--
 //--                                                                            --
-//-- FILE NAME: top.v                                                           --
+//-- FILE NAME: top_tb.v                                                        --
 //--                                                                            --
 //-- DATE: 9/30/2012                                                            --
 //--                                                                            --
 //-- DESIGNER: Samir Silbak                                                     --
 //--                                                                            --
-//-- DESCRIPTION: top                                                           --
+//-- DESCRIPTION: tests the top module to ensure everything is connected        --
+//--              properly                                                      --
 //--                                                                            --
 //--============================================================================--
 //--================================= VERILOG ==================================--
@@ -26,7 +27,10 @@ module top_tb ();
     wire [6:0] HEX2;
     wire [6:0] HEX3;
 
-    reg [17:0] i = 0;
+    integer i = 0;
+
+    reg [7:0] twos_comp_quot = 0;
+    reg [7:0] twos_comp_rand = 0;
 
     top dut (
         .CLOCK_50(CLOCK_50),
@@ -62,18 +66,44 @@ module top_tb ();
 
             #10; KEY[3] = 0;
 
-            $display("_________________");
-            $write("random value = %d\n", dut.rand_num);
-            $display("-----------------");
-            $write("quotient val = %f\n", dut.div_num);
-            $display("-----------------");
-            $write("x            = %d\n", dut.sum_3.x);
-            $display("-----------------");
-            $write("y            = %d\n", dut.sum_3.y);
-            $display("-----------------");
-            $write("z            = %d\n", dut.sum_3.z);
-            $display("-----------------");
-            $write("sum value    = %d\n", dut.sum_val);
+            if (dut.rand_num[7] == 1) begin
+                twos_comp_rand = ((~dut.rand_num) + 1);
+
+                $write("rand val   = -%0d.%0d\n", 
+                        twos_comp_rand[7:6], 
+                        twos_comp_rand[5:0] * 15625);
+                $display("           -----------");
+                $display("                3\n");
+
+            end else begin
+                $write("rand val   = %0d.%0d\n", 
+                        twos_comp_rand[7:6], 
+                        twos_comp_rand[5:0] * 15625);
+                $display("           -----------");
+                $display("                3\n");
+            end
+
+            if (dut.div_num[7] == 1) begin
+                twos_comp_quot = ((~dut.div_num) + 1);
+
+                $write("quotient v = -%0d.%0d\n", 
+                        twos_comp_quot[7:6], 
+                        twos_comp_quot[5:0] * 15625);
+                $display("\n*******************");
+
+            end else begin
+                $write("quotient v = %0d.%0d\n", 
+                        dut.div_num[7:6], 
+                        dut.div_num[5:0] * 15625);
+                $display("\n*******************");
+            end
+
+            $write("x              %d\n", dut.sum_3.x);
+            $write("y            + %d\n", dut.sum_3.y);
+            $write("z            + %d\n", dut.sum_3.z);
+            $display("___________________");
+            $write("sum value    = %d\n\n", dut.sum_val);
+            $display("\n");
 
             #10; KEY[3] = 1;
 
