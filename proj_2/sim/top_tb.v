@@ -27,7 +27,7 @@ module top_tb ();
     wire [6:0] HEX2;
     wire [6:0] HEX3;
 
-    integer i = 0;
+    integer i;
 
     reg [7:0] twos_comp_quot = 0;
     reg [7:0] twos_comp_rand = 0;
