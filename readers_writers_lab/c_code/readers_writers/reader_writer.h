@@ -2,7 +2,7 @@
 #define ENUMERATIONS_H_
 
 #define MAX_WORD_SIZE 6
-#define WORDS_IN_BOOK 9
+#define WORDS_IN_BOOK 10
 
 char* pangram[WORDS_IN_BOOK][MAX_WORD_SIZE];
 char* book[WORDS_IN_BOOK][MAX_WORD_SIZE];

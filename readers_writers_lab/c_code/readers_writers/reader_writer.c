@@ -47,7 +47,7 @@ void reader(void *pdata){
 
 			OSSemPost(shared_buf_sem);
 
-			OSTimeDlyHMSM(0,0,10,0);
+			OSTimeDlyHMSM(0,0,9,0);
 		}
 	}
 }
@@ -58,7 +58,7 @@ void writer(void *pdata){
 	while(true){
 		OSSemPend(shared_buf_sem, 0, &return_code);
 
-		if(book_mark == WORDS_IN_BOOK -1){
+		if(book_mark == WORDS_IN_BOOK){
 			book_mark = 0;
 		}
 		printf("Writer is writing");
@@ -75,8 +75,7 @@ void writer(void *pdata){
 	}
 }
 
-
-void  reader_writer_init()
+void reader_writer_init()
 {
 	INT8U return_code = OS_NO_ERR;
 	book_mark = 0;
@@ -91,6 +90,7 @@ void  reader_writer_init()
 	pangram[6][0] = "the\0";
 	pangram[7][0] = "lazy\0";\
 	pangram[8][0] = "dog\0";
+	pangram[9][0] = "!\0";
 
 	//create writer
 	return_code = OSTaskCreate(writer, NULL, (void*)&writer_stk[TASK_STACKSIZE-1], WRITER_PRIO);
