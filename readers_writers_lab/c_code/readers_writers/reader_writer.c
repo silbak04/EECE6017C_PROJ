@@ -20,12 +20,12 @@ OS_STK writer_stk[TASK_STACKSIZE];
 
 void elipsis(){
 	INT8U i;
-	OSTimeDlyHMSM(0,0,1,0);
+	//OSTimeDlyHMSM(0,0,1,0);
 
 	for(i=0; i<3; i++){
 		printf(".");
 	}
-	OSTimeDlyHMSM(0,0,1,0);
+	//OSTimeDlyHMSM(0,0,4,0);
 }
 
 void reader(void *pdata){
@@ -35,15 +35,20 @@ void reader(void *pdata){
 	{
 		//Hold Reader Semaphore
 		OSSemPend(shared_reader_sem, 0, &return_code);
+        printf("Hold Reader Semaphore\n");
 
 		// Count number of Readers using queue
 		reader_count++;
 
 		// If first reader Hold writer semaphore or wait
 		if (reader_count==1)
+        {
 			OSSemPend(shared_write_sem, 0, &return_code);
+			printf("Hold Writer Semaphore\n");
+        }
 
 		// Release Reader semaphore and continue
+        printf("Release Reader Semaphore\n");
 		OSSemPost(shared_reader_sem);
 
 		if(book_mark == 0)
@@ -59,20 +64,22 @@ void reader(void *pdata){
 			if (reader_count==0)
 			{
 				OSSemPost(shared_write_sem);
-				printf("Hold Writer Semaphore\n");
+				printf("Release Writer Semaphore\n");
 			}
 
 			// Release Reader semaphore and delay
 			printf("Release Reader Semaphore\n");
 			OSSemPost(shared_reader_sem);
 
-			OSTimeDlyHMSM(0,0,2,0);
+			OSTimeDlyHMSM(0,0,9,0);
 		}
 		else
 		{
 			INT8U index = 0;
 
 			printf("\nReader is reading\n");
+			OSTimeDlyHMSM(0,0,2,0);
+            printf("Read");
 			elipsis();
 
 			while(index < book_mark){
@@ -100,7 +107,7 @@ void reader(void *pdata){
 			printf("Release Reader Semaphore\n");
 			OSSemPost(shared_reader_sem);
 
-			OSTimeDlyHMSM(0,0,5,0);
+			OSTimeDlyHMSM(0,0,10,0);
 		}
 	}
 }
@@ -117,6 +124,8 @@ void writer(void *pdata){
 			book_mark = 0;
 		}
 		printf("\nWriter is writing\n");
+        OSTimeDlyHMSM(0,0,2,0);
+        printf("Writing");
 		elipsis();
 
 		book[book_mark][0] = pangram[book_mark][0];
@@ -170,7 +179,7 @@ void  reader_writer_init()
 int main (int argc, char* argv[], char* envp[])
 {
 	shared_write_sem = OSSemCreate(1);
-	shared_reader_sem = OSSemCreate(3);
+	shared_reader_sem = OSSemCreate(1);
 
 	reader_writer_init();
 
