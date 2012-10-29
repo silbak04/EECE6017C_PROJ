@@ -1,0 +1,152 @@
+nios2-terminal: connected to hardware target using JTAG UART on cable
+nios2-terminal: "USB-Blaster [7-1]", device 1, instance 0
+nios2-terminal: (Use the IDE stop button or Ctrl-C to terminate)
+
+Hold Writer Semaphore
+
+Writer is writing
+Hold Reader Semaphore
+Writing...lazy 
+Release Writer Semaphore
+Hold Writer Semaphore
+Release Reader Semaphore
+
+Reader is reading
+Hold Reader Semaphore
+Release Reader Semaphore
+
+Reader is reading
+Hold Reader Semaphore
+Release Reader Semaphore
+
+Reader is reading
+Read...A quick brown fox jumps over the lazy 
+Hold Reader Semaphore
+Release Reader Semaphore
+Read...A quick brown fox jumps over the lazy 
+Hold Reader Semaphore
+Release Reader Semaphore
+Read...A quick brown fox jumps over the lazy 
+Hold Reader Semaphore
+Release Writer Semaphore
+Hold Writer Semaphore
+
+Writer is writing
+Release Reader Semaphore
+Writing...dog 
+Release Writer Semaphore
+Hold Writer Semaphore
+
+Writer is writing
+Writing...A 
+Release Writer Semaphore
+Hold Writer Semaphore
+
+Writer is writing
+Writing...quick 
+Release Writer Semaphore
+Hold Writer Semaphore
+
+Writer is writing
+Hold Reader Semaphore
+Writing...brown 
+Release Writer Semaphore
+Hold Writer Semaphore
+Release Reader Semaphore
+
+Reader is reading
+Hold Reader Semaphore
+Release Reader Semaphore
+
+Reader is reading
+Hold Reader Semaphore
+Release Reader Semaphore
+
+Reader is reading
+Read...A quick brown 
+Hold Reader Semaphore
+Release Reader Semaphore
+Read...A quick brown 
+Hold Reader Semaphore
+Release Reader Semaphore
+Read...A quick brown 
+Hold Reader Semaphore
+Release Writer Semaphore
+Hold Writer Semaphore
+
+Writer is writing
+Release Reader Semaphore
+Writing...fox 
+Release Writer Semaphore
+Hold Writer Semaphore
+
+Writer is writing
+Writing...jumps 
+Release Writer Semaphore
+Hold Writer Semaphore
+
+Writer is writing
+Writing...over 
+Release Writer Semaphore
+Hold Writer Semaphore
+
+Writer is writing
+Hold Reader Semaphore
+Writing...the 
+Release Writer Semaphore
+Hold Writer Semaphore
+Release Reader Semaphore
+
+Reader is reading
+Hold Reader Semaphore
+Release Reader Semaphore
+
+Reader is reading
+Hold Reader Semaphore
+Release Reader Semaphore
+
+Reader is reading
+Read...A quick brown fox jumps over the 
+Hold Reader Semaphore
+Release Reader Semaphore
+Read...A quick brown fox jumps over the 
+Hold Rea..
+Hold Reader Semaphore
+Release Writer Semaphore
+Hold Writer Semaphore
+
+Writer is writing
+Release Reader Semaphore
+Writing...lazy 
+Release Writer Semaphore
+Hold Writer Semaphore
+
+Writer is writing
+Writing...dog 
+Release Writer Semaphore
+Hold Reader Semaphore
+Hold Writer Semaphore
+Release Reader Semaphore
+
+Reader is reading
+Read...A quick brown fox jumps over the lazy dog 
+Hold Reader Semaphore
+Release Writer Semaphore
+Hold Writer Semaphore
+
+Writer is writing
+Release Reader Semaphore
+Hold Reader Semaphore
+Writing...A 
+Release Writer Semaphore
+Hold Writer Semaphore
+Release Reader Semaphore
+
+Reader is reading
+Hold Reader Semaphore
+Release Reader Semaphore
+
+Reader is reading
+
+
+nios2-terminal: exiting due to ^C on host
