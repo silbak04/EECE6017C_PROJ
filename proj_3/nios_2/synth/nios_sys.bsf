@@ -1,0 +1,200 @@
+/*
+WARNING: Do NOT edit the input and output ports in this file in a text
+editor if you plan to continue editing the block that represents it in
+the Block Editor! File corruption is VERY likely to occur.
+*/
+/*
+Copyright (C) 1991-2012 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+*/
+(header "symbol" (version "1.1"))
+(symbol
+	(rect 0 0 544 472)
+	(text "nios_sys" (rect 246 -1 302 11)(font "Arial" (font_size 10)))
+	(text "inst" (rect 8 456 36 468)(font "Arial" ))
+	(port
+		(pt 0 400)
+		(input)
+		(text "altpll_0_inclk_interface_clk" (rect 0 0 198 12)(font "Arial" (font_size 8)))
+		(text "altpll_0_inclk_interface_clk" (rect 4 389 172 400)(font "Arial" (font_size 8)))
+		(line (pt 0 400)(pt 240 400)(line_width 1))
+	)
+	(port
+		(pt 0 72)
+		(output)
+		(text "hex3_external_connection_export[6..0]" (rect 0 0 261 12)(font "Arial" (font_size 8)))
+		(text "hex3_external_connection_export[6..0]" (rect 4 61 226 72)(font "Arial" (font_size 8)))
+		(line (pt 0 72)(pt 240 72)(line_width 3))
+	)
+	(port
+		(pt 0 112)
+		(output)
+		(text "hex2_external_connection_export[6..0]" (rect 0 0 261 12)(font "Arial" (font_size 8)))
+		(text "hex2_external_connection_export[6..0]" (rect 4 101 226 112)(font "Arial" (font_size 8)))
+		(line (pt 0 112)(pt 240 112)(line_width 3))
+	)
+	(port
+		(pt 0 152)
+		(output)
+		(text "hex1_external_connection_export[6..0]" (rect 0 0 261 12)(font "Arial" (font_size 8)))
+		(text "hex1_external_connection_export[6..0]" (rect 4 141 226 152)(font "Arial" (font_size 8)))
+		(line (pt 0 152)(pt 240 152)(line_width 3))
+	)
+	(port
+		(pt 0 192)
+		(output)
+		(text "hex0_external_connection_export[6..0]" (rect 0 0 261 12)(font "Arial" (font_size 8)))
+		(text "hex0_external_connection_export[6..0]" (rect 4 181 226 192)(font "Arial" (font_size 8)))
+		(line (pt 0 192)(pt 240 192)(line_width 3))
+	)
+	(port
+		(pt 0 232)
+		(output)
+		(text "sdram_0_wire_addr[11..0]" (rect 0 0 169 12)(font "Arial" (font_size 8)))
+		(text "sdram_0_wire_addr[11..0]" (rect 4 221 148 232)(font "Arial" (font_size 8)))
+		(line (pt 0 232)(pt 240 232)(line_width 3))
+	)
+	(port
+		(pt 0 248)
+		(output)
+		(text "sdram_0_wire_ba[1..0]" (rect 0 0 148 12)(font "Arial" (font_size 8)))
+		(text "sdram_0_wire_ba[1..0]" (rect 4 237 130 248)(font "Arial" (font_size 8)))
+		(line (pt 0 248)(pt 240 248)(line_width 3))
+	)
+	(port
+		(pt 0 264)
+		(output)
+		(text "sdram_0_wire_cas_n" (rect 0 0 127 12)(font "Arial" (font_size 8)))
+		(text "sdram_0_wire_cas_n" (rect 4 253 112 264)(font "Arial" (font_size 8)))
+		(line (pt 0 264)(pt 240 264)(line_width 1))
+	)
+	(port
+		(pt 0 280)
+		(output)
+		(text "sdram_0_wire_cke" (rect 0 0 113 12)(font "Arial" (font_size 8)))
+		(text "sdram_0_wire_cke" (rect 4 269 100 280)(font "Arial" (font_size 8)))
+		(line (pt 0 280)(pt 240 280)(line_width 1))
+	)
+	(port
+		(pt 0 296)
+		(output)
+		(text "sdram_0_wire_cs_n" (rect 0 0 120 12)(font "Arial" (font_size 8)))
+		(text "sdram_0_wire_cs_n" (rect 4 285 106 296)(font "Arial" (font_size 8)))
+		(line (pt 0 296)(pt 240 296)(line_width 1))
+	)
+	(port
+		(pt 0 328)
+		(output)
+		(text "sdram_0_wire_dqm[1..0]" (rect 0 0 155 12)(font "Arial" (font_size 8)))
+		(text "sdram_0_wire_dqm[1..0]" (rect 4 317 136 328)(font "Arial" (font_size 8)))
+		(line (pt 0 328)(pt 240 328)(line_width 3))
+	)
+	(port
+		(pt 0 344)
+		(output)
+		(text "sdram_0_wire_ras_n" (rect 0 0 127 12)(font "Arial" (font_size 8)))
+		(text "sdram_0_wire_ras_n" (rect 4 333 112 344)(font "Arial" (font_size 8)))
+		(line (pt 0 344)(pt 240 344)(line_width 1))
+	)
+	(port
+		(pt 0 360)
+		(output)
+		(text "sdram_0_wire_we_n" (rect 0 0 120 12)(font "Arial" (font_size 8)))
+		(text "sdram_0_wire_we_n" (rect 4 349 106 360)(font "Arial" (font_size 8)))
+		(line (pt 0 360)(pt 240 360)(line_width 1))
+	)
+	(port
+		(pt 544 72)
+		(output)
+		(text "altpll_0_c2_clk" (rect 0 0 106 12)(font "Arial" (font_size 8)))
+		(text "altpll_0_c2_clk" (rect 469 61 559 72)(font "Arial" (font_size 8)))
+		(line (pt 544 72)(pt 304 72)(line_width 1))
+	)
+	(port
+		(pt 544 112)
+		(output)
+		(text "clock_bridge_0_out_clk_1_clk" (rect 0 0 198 12)(font "Arial" (font_size 8)))
+		(text "clock_bridge_0_out_clk_1_clk" (rect 394 101 562 112)(font "Arial" (font_size 8)))
+		(line (pt 544 112)(pt 304 112)(line_width 1))
+	)
+	(port
+		(pt 0 440)
+		(output)
+		(text "green_leds_external_connection_export[7..0]" (rect 0 0 304 12)(font "Arial" (font_size 8)))
+		(text "green_leds_external_connection_export[7..0]" (rect 4 429 262 440)(font "Arial" (font_size 8)))
+		(line (pt 0 440)(pt 240 440)(line_width 3))
+	)
+	(port
+		(pt 0 312)
+		(bidir)
+		(text "sdram_0_wire_dq[15..0]" (rect 0 0 155 12)(font "Arial" (font_size 8)))
+		(text "sdram_0_wire_dq[15..0]" (rect 4 301 136 312)(font "Arial" (font_size 8)))
+		(line (pt 0 312)(pt 240 312)(line_width 3))
+	)
+	(drawing
+		(text "hex3_external_connection" (rect 91 43 326 99)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "export" (rect 245 67 526 144)(font "Arial" (color 0 0 0)))
+		(text "hex2_external_connection" (rect 91 83 326 179)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "export" (rect 245 107 526 224)(font "Arial" (color 0 0 0)))
+		(text "hex1_external_connection" (rect 93 123 330 259)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "export" (rect 245 147 526 304)(font "Arial" (color 0 0 0)))
+		(text "hex0_external_connection" (rect 91 163 326 339)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "export" (rect 245 187 526 384)(font "Arial" (color 0 0 0)))
+		(text "sdram_0_wire" (rect 156 203 384 419)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "addr" (rect 245 227 514 464)(font "Arial" (color 0 0 0)))
+		(text "ba" (rect 245 243 502 496)(font "Arial" (color 0 0 0)))
+		(text "cas_n" (rect 245 259 520 528)(font "Arial" (color 0 0 0)))
+		(text "cke" (rect 245 275 508 560)(font "Arial" (color 0 0 0)))
+		(text "cs_n" (rect 245 291 514 592)(font "Arial" (color 0 0 0)))
+		(text "dq" (rect 245 307 502 624)(font "Arial" (color 0 0 0)))
+		(text "dqm" (rect 245 323 508 656)(font "Arial" (color 0 0 0)))
+		(text "ras_n" (rect 245 339 520 688)(font "Arial" (color 0 0 0)))
+		(text "we_n" (rect 245 355 514 720)(font "Arial" (color 0 0 0)))
+		(text "altpll_0_inclk_interface" (rect 106 371 356 755)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "clk" (rect 245 395 508 800)(font "Arial" (color 0 0 0)))
+		(text "altpll_0_c2" (rect 305 43 676 99)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "clk" (rect 289 67 596 144)(font "Arial" (color 0 0 0)))
+		(text "clock_bridge_0_out_clk_1" (rect 305 83 754 179)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "clk" (rect 289 107 596 224)(font "Arial" (color 0 0 0)))
+		(text "green_leds_external_connection" (rect 53 411 286 835)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "export" (rect 245 435 526 880)(font "Arial" (color 0 0 0)))
+		(text " nios_sys " (rect 502 456 1064 922)(font "Arial" ))
+		(line (pt 241 52)(pt 241 76)(line_width 1))
+		(line (pt 242 52)(pt 242 76)(line_width 1))
+		(line (pt 241 92)(pt 241 116)(line_width 1))
+		(line (pt 242 92)(pt 242 116)(line_width 1))
+		(line (pt 241 132)(pt 241 156)(line_width 1))
+		(line (pt 242 132)(pt 242 156)(line_width 1))
+		(line (pt 241 172)(pt 241 196)(line_width 1))
+		(line (pt 242 172)(pt 242 196)(line_width 1))
+		(line (pt 241 212)(pt 241 364)(line_width 1))
+		(line (pt 242 212)(pt 242 364)(line_width 1))
+		(line (pt 241 380)(pt 241 404)(line_width 1))
+		(line (pt 242 380)(pt 242 404)(line_width 1))
+		(line (pt 303 52)(pt 303 76)(line_width 1))
+		(line (pt 302 52)(pt 302 76)(line_width 1))
+		(line (pt 303 92)(pt 303 116)(line_width 1))
+		(line (pt 302 92)(pt 302 116)(line_width 1))
+		(line (pt 241 420)(pt 241 444)(line_width 1))
+		(line (pt 242 420)(pt 242 444)(line_width 1))
+		(line (pt 240 32)(pt 304 32)(line_width 1))
+		(line (pt 304 32)(pt 304 456)(line_width 1))
+		(line (pt 240 456)(pt 304 456)(line_width 1))
+		(line (pt 240 32)(pt 240 456)(line_width 1))
+		(line (pt 0 0)(pt 544 0)(line_width 1))
+		(line (pt 544 0)(pt 544 472)(line_width 1))
+		(line (pt 0 472)(pt 544 472)(line_width 1))
+		(line (pt 0 0)(pt 0 472)(line_width 1))
+	)
+)
