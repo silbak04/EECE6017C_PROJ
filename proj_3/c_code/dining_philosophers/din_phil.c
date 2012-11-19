@@ -36,32 +36,32 @@ void eater(void *pdata)
 
         /* Philosophers thinking */
         printf("Philosopher[%d] has gobbled down %d times and is thinking for %ds...\n", num, gobble, time);
-        OSTimeDlyHMSM(0,0,time,0);
         printf("------------------------------------------------------------------------------------------------------\n");
+        OSTimeDlyHMSM(0,0,time,0);
 
         if (right_fork < left_fork)
         {
             /* wait to pick up right fork */
             printf("Philosopher[%d] has gobbled down %d times and is waiting to pick up Philosopher[%d]'s (right) fork...\n", num, gobble, right_fork);
-            OSSemPend(forks[right_fork], 0, &return_code);
             printf("------------------------------------------------------------------------------------------------------\n");
+            OSSemPend(forks[right_fork], 0, &return_code);
 
             /* wait to pick up left fork */
             printf("Philosopher[%d] has gobbled down %d times and is waiting to pick up Philosopher[%d]'s (left) fork...\n", num, gobble, left_fork);
-            OSSemPend(forks[left_fork], 0, &return_code);
             printf("------------------------------------------------------------------------------------------------------\n");
+            OSSemPend(forks[left_fork], 0, &return_code);
         } 
         else
         {
             /* wait to pick up left fork */
             printf("Philosopher[%d] has gobbled down %d times and is waiting to pick up Philosopher[%d]'s (left) fork...\n", num, gobble, left_fork);
-            OSSemPend(forks[left_fork], 0, &return_code);
             printf("------------------------------------------------------------------------------------------------------\n");
+            OSSemPend(forks[left_fork], 0, &return_code);
 
             /* wait to pick up right fork */
             printf("Philosopher[%d] has gobbled down %d times and is waiting to pick up Philosopher[%d]'s (right) fork...\n", num, gobble, right_fork);
-            OSSemPend(forks[right_fork], 0, &return_code);
             printf("------------------------------------------------------------------------------------------------------\n");
+            OSSemPend(forks[right_fork], 0, &return_code);
         }
 
         time = (rand() % 9) + 1;
@@ -73,13 +73,13 @@ void eater(void *pdata)
 
         /* put down left fork */
         printf("Philosopher[%d] has gobbled down %d times and is putting down Philosopher[%d]'s (left) fork...\n", num, gobble, left_fork);
-        OSSemPost(forks[left_fork]);
         printf("------------------------------------------------------------------------------------------------------\n");
+        OSSemPost(forks[left_fork]);
 
         /* put down right fork */
         printf("Philosopher[%d] has gobbled down %d times and is putting down Philosopher[%d]'s (right) fork...\n", num, gobble, right_fork);
-        OSSemPost(forks[right_fork]);
         printf("------------------------------------------------------------------------------------------------------\n");
+        OSSemPost(forks[right_fork]);
 
     }
 }
