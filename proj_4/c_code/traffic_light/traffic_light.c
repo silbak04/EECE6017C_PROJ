@@ -557,7 +557,6 @@ void task_f(void *pdata)
 
                 if (idle) 
                 {
-                    printf("am i in here?\n");
                     idle_state(0, 50);
                     shift_cnt++;
                 }
