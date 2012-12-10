@@ -229,8 +229,6 @@ void task_a(void *pdata)
     }
 }
 
-SSemPost(traffic_light);
-
 /*******************************************************************************/ 
 /*                                    TASK B                                   */
 /*******************************************************************************/ 
@@ -440,28 +438,37 @@ void task_e(void *pdata)
 /* off by another switch, at which time the system should return to task A.    */
 /*******************************************************************************/ 
 
+int shift_left = 1;
+int shift_cnt = 0;
+
 void idle_state(int sec, int ms)
 {
-    *red_leds = 1;
-    /*int shift_right = 1;
-
-    if (shift_right)
-        *red_leds <<= 1;
-    else
-        *red_leds >>= 1;
-
-    if (*red_leds == 512) shift_right = 0;
-    if (*red_leds == 1  ) shift_right = 1;*/
-
-    for (i = 0; i < 9; i++)
+    if (shift_cnt < 9)
     {
-        OSTimeDlyHMSM(0, 0, sec, ms);
-        *red_leds <<= 1;
-    }
-    for (i = 0; i < 9; i++)
-    {
-        OSTimeDlyHMSM(0, 0, sec, ms);
-        *red_leds >>= 1;
+        printf("i'm in, shift =%d\n", shift_left);
+        
+        if (shift_left)
+        {
+            OSTimeDlyHMSM(0, 0, sec, ms);
+            *red_leds <<= 1;
+        }
+        else
+        {
+            OSTimeDlyHMSM(0, 0, sec, ms);
+            *red_leds >>= 1;
+        }
+
+        if (*red_leds == 512) 
+        {
+            shift_left = 0;
+            shift_cnt = -1;
+        }
+
+        if (*red_leds == 1)
+        {
+            shift_left = 1;
+            shift_cnt = -1;
+        }
     }
 }
 
@@ -538,6 +545,7 @@ void task_f(void *pdata)
                 disp_hex("hand");
 
                 OSSemPend(traffic_light, 0, &return_code);
+                *red_leds = 1;
                 lock = 1;
             }
 
@@ -545,7 +553,11 @@ void task_f(void *pdata)
             {
                 printf("We are in manual mode setting\n");
 
-                if (idle) idle_state(0, 50);
+                if (idle) 
+                {
+                    idle_state(0, 50);
+                    shift_cnt++;
+                }
 
                 if (*buttons == MANUAL_LIGHT)
                 {
@@ -554,7 +566,6 @@ void task_f(void *pdata)
 
                     change_lights(MANUAL_SWITCH);
                     OSTimeDlyHMSM(0, 0, 0, 300);
-
                     idle = ~idle;
                 }
 
@@ -581,32 +592,32 @@ void task_f(void *pdata)
 
 void traffic_light_init(void)
 {
-	INT8U return_code = OS_NO_ERR;
+    INT8U return_code = OS_NO_ERR;
 
     /* create traffic light semaphore */
     traffic_light = OSSemCreate(1);
 
-	/* create task A */
+    /* create task A */
     return_code = OSTaskCreate(task_a, NULL, (void *) &task_stack[0][TASK_STACKSIZE - 1], TASK_A_PRIORITY);
     alt_ucosii_check_return_code(return_code);
 
-	/* create task B */
+    /* create task B */
     return_code = OSTaskCreate(task_b, NULL, (void *) &task_stack[1][TASK_STACKSIZE - 1], TASK_B_PRIORITY);
     alt_ucosii_check_return_code(return_code);
 
-	/* create task C */
+    /* create task C */
     return_code = OSTaskCreate(task_c, NULL, (void *) &task_stack[2][TASK_STACKSIZE - 1], TASK_C_PRIORITY);
     alt_ucosii_check_return_code(return_code);
 
-	/* create task D */
+    /* create task D */
     return_code = OSTaskCreate(task_d, NULL, (void *) &task_stack[3][TASK_STACKSIZE - 1], TASK_D_PRIORITY);
     alt_ucosii_check_return_code(return_code);
 
-	/* create task E */
+    /* create task E */
     return_code = OSTaskCreate(task_e, NULL, (void *) &task_stack[4][TASK_STACKSIZE - 1], TASK_E_PRIORITY);
     alt_ucosii_check_return_code(return_code);
 
-	/* create task F */
+    /* create task F */
     return_code = OSTaskCreate(task_f, NULL, (void *) &task_stack[5][TASK_STACKSIZE - 1], TASK_F_PRIORITY);
     alt_ucosii_check_return_code(return_code);
 }
