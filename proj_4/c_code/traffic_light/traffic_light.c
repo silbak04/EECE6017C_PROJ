@@ -553,7 +553,7 @@ void task_f(void *pdata)
 
             if (lock)
             {
-                //printf("We are in manual mode setting\n");
+                printf("We are in manual mode setting\n");
 
                 if (idle) 
                 {
