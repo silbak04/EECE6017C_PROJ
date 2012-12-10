@@ -445,8 +445,6 @@ void idle_state(int sec, int ms)
 {
     if (shift_cnt < 9)
     {
-        printf("i'm in, shift =%d\n", shift_left);
-        
         if (shift_left)
         {
             OSTimeDlyHMSM(0, 0, sec, ms);
@@ -532,7 +530,6 @@ void task_f(void *pdata)
     int idle = 1;
 
     int MANUAL_SWITCH = -1;
-
     INT8U return_code;
 
     while (1)
