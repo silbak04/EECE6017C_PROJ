@@ -527,7 +527,7 @@ void change_lights(int MANUAL_SWITCH)
 void task_f(void *pdata)
 {
     int lock = 0;
-    int idle = 1;
+    int idle = 0;
 
     int MANUAL_SWITCH = -1;
     INT8U return_code;
@@ -542,16 +542,22 @@ void task_f(void *pdata)
                 disp_hex("hand");
 
                 OSSemPend(traffic_light, 0, &return_code);
+
+                shift_left = 1;
+                shift_cnt = 0;
                 *red_leds = 1;
+
+                idle = 1;
                 lock = 1;
             }
 
             if (lock)
             {
-                printf("We are in manual mode setting\n");
+                //printf("We are in manual mode setting\n");
 
                 if (idle) 
                 {
+                    printf("am i in here?\n");
                     idle_state(0, 50);
                     shift_cnt++;
                 }
