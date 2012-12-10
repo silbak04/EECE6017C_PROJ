@@ -63,7 +63,6 @@ void flash_leds(char *string, int FLASH_LEDS, int sec, int ms)
         switch(FLASH_LEDS)
         {
             case RED:
-
                 *red_leds = FLASH_RED_LEDS;
                 disp_hex(string);
 
@@ -77,7 +76,6 @@ void flash_leds(char *string, int FLASH_LEDS, int sec, int ms)
                 return;
 
             case GRN:
-
                 *grn_leds = FLASH_GRN_LEDS;
                 disp_hex(string);
 
@@ -91,7 +89,6 @@ void flash_leds(char *string, int FLASH_LEDS, int sec, int ms)
                 return;
 
             case RED_GRN:
-
                 *red_leds = FLASH_RED_LEDS;
                 *grn_leds = FLASH_GRN_LEDS;
                 disp_hex(string);
@@ -105,20 +102,6 @@ void flash_leds(char *string, int FLASH_LEDS, int sec, int ms)
                 OSTimeDlyHMSM(0, 0, sec, ms);
 
                 return;
-
-            /* in case of error */
-            case ERROR:
-
-                printf("SYSTEM ERROR!\n");
-                disp_hex("erro");
-
-                OSTimeDlyHMSM(0, 0, 2, 0);
-
-                break;
-
-            /* default to error */
-            default:
-                LIGHTS = ERROR;
         }
     }
 
@@ -145,159 +128,108 @@ void flash_disp(char *string, int sec, int ms)
 void task_a(void *pdata)
 {
     INT8U return_code;
-
-    *grn_leds = OFF;
-    *red_leds = OFF;
-
-    /* initialize primary and secondary
-       streets to have red lights */
-    OSSemPend(traffic_light, 0, &return_code);
-
-    *red_leds = RED_LIGHT;
-    *grn_leds = RED_LIGHT;
-
-    disp_hex("red");
-
-    OSTimeDlyHMSM(0, 0, 5, 0);
-    OSSemPost(traffic_light);
-
     LIGHTS = PRIM_GRN;
 
     while(1)
     {
+        OSSemPend(traffic_light, 0, &return_code);
+
+        *red_leds = RED_LIGHT;
+        *grn_leds = RED_LIGHT;
+
         switch(LIGHTS)
         {
             /* primary street is green */
             case PRIM_GRN:
-
-                LIGHTS = PRIM_YEL;
-
-                /* lock traffic light semaphore */
-                OSSemPend(traffic_light, 0, &return_code);
 
                 *grn_leds = GRN_LIGHT;
 
                 printf("Light is green on Primary Street.\n");
                 disp_hex("pgrn");
 
-                OSTimeDlyHMSM(0, 0, 10, 0);
-                OSSemPost(traffic_light);
+                LIGHTS = PRIM_YEL;
 
+                OSSemPost(traffic_light);
+                OSTimeDlyHMSM(0, 0, 10, 0);
                 break;
 
             /* primary street is yellow */
             case PRIM_YEL:
-
-                LIGHTS = PRIM_RED;
-
-                /* lock traffic light semaphore */
-                OSSemPend(traffic_light, 0, &return_code);
 
                 *grn_leds = YEL_LIGHT;
 
                 printf("Light is yellow on Primary Street.\n");
                 disp_hex("pyel");
 
-                OSTimeDlyHMSM(0, 0, 2, 0);
-                OSSemPost(traffic_light);
+                LIGHTS = PRIM_RED;
 
+                OSSemPost(traffic_light);
+                OSTimeDlyHMSM(0, 0, 2, 0);
                 break;
 
             /* primary street is red */ 
             case PRIM_RED:
-
-                LIGHTS = SECN_GRN;
-
-                /* lock traffic light semaphore */
-                OSSemPend(traffic_light, 0, &return_code);
 
                 *grn_leds = RED_LIGHT;
 
                 printf("Light is red on Primary Street.\n");
                 disp_hex("pred");
 
-                OSTimeDlyHMSM(0, 0, 1, 0);
-                OSSemPost(traffic_light);
+                LIGHTS = SECN_GRN;
 
+                OSSemPost(traffic_light);
+                OSTimeDlyHMSM(0, 0, 1, 0);
                 break;
 
             /* secondary street is green */
             case SECN_GRN:
-
-                LIGHTS = SECN_YEL;
-
-                /* lock traffic light semaphore */
-                OSSemPend(traffic_light, 0, &return_code);
 
                 *red_leds = GRN_LIGHT; 
 
                 printf("Light is green on Secondary Street.\n");
                 disp_hex("sgrn");
 
-                OSTimeDlyHMSM(0, 0, 4, 0);
-                OSSemPost(traffic_light);
+                LIGHTS = SECN_YEL;
 
+                OSSemPost(traffic_light);
+                OSTimeDlyHMSM(0, 0, 4, 0);
                 break;
 
             /* secondary street is yellow */
             case SECN_YEL:
-
-                LIGHTS = SECN_RED;
-
-                /* lock traffic light semaphore */
-                OSSemPend(traffic_light, 0, &return_code);
 
                 *red_leds = YEL_LIGHT; 
 
                 printf("Light is yellow on Secondary Street.\n");
                 disp_hex("syel");
 
-                OSTimeDlyHMSM(0, 0, 2, 0);
-                OSSemPost(traffic_light);
+                LIGHTS = SECN_RED;
 
+                OSSemPost(traffic_light);
+                OSTimeDlyHMSM(0, 0, 2, 0);
                 break;
 
             /* secondary street is red */ 
             case SECN_RED:
-
-                LIGHTS = PRIM_GRN;
-
-                /* lock traffic light semaphore */
-                OSSemPend(traffic_light, 0, &return_code);
 
                 *red_leds = RED_LIGHT;
 
                 printf("Light is red on Secondary Street.\n");
                 disp_hex("sred");
 
+                LIGHTS = PRIM_GRN;
+
+                OSSemPost(traffic_light);
                 OSTimeDlyHMSM(0, 0, 1, 0);
-                OSSemPost(traffic_light);
-
                 break;
-
-            /* in case of error */
-            case ERROR:
-
-                /* lock traffic light semaphore */
-                OSSemPend(traffic_light, 0, &return_code);
-
-                printf("SYSTEM ERROR!\n");
-                disp_hex("erro");
-
-                OSTimeDlyHMSM(0, 0, 2, 0);
-                OSSemPost(traffic_light);
-
-                break;
-
-            /* default to error */
-            default:
-                LIGHTS = ERROR;
         }
 
         /* poll for lights every 5ms */
         OSTimeDlyHMSM(0, 0, 0, 5);
     }
 }
+
+SSemPost(traffic_light);
 
 /*******************************************************************************/ 
 /*                                    TASK B                                   */
@@ -323,7 +255,7 @@ void task_b(void *pdata)
             /* lock traffic light semaphore */
             OSSemPend(traffic_light, 0, &return_code);
 
-            printf("We are turning left now.\n");
+            printf("Turning left on Primary Street now.\n");
             disp_hex("left");
 
             OSTimeDlyHMSM(0, 0, 3, 0);
@@ -380,7 +312,6 @@ void task_c(void *pdata)
             OSSemPost(traffic_light);
 
             cwlk_button = 0;
-
         }
 
         else if (cwlk_button == 1 &&
@@ -400,7 +331,6 @@ void task_c(void *pdata)
 
         /* poll for button press every 5 ms */
         OSTimeDlyHMSM(0, 0, 0, 5);
-
     }
 
 }
@@ -427,19 +357,26 @@ void task_d(void *pdata)
             if (lock == 0)
             {
                 OSSemPend(traffic_light, 0, &return_code);
+
                 *grn_leds = OFF;
                 lock = 1;
             }
 
             if (lock)
             {
+                *grn_leds = OFF;
                 printf("EMERGENCY!!!!\n");
                 flash_leds("attn", RED, 0, 500);
             }
         }
 
-        if (lock) OSSemPost(traffic_light);
-        lock = 0;
+        if (lock) 
+        {
+            LIGHTS = PRIM_GRN;
+            lock = 0;
+
+            OSSemPost(traffic_light);
+        }
 
         /* poll for switch every 5 ms */
         OSTimeDlyHMSM(0, 0, 0, 5);
@@ -481,8 +418,13 @@ void task_e(void *pdata)
             }
         }
 
-        if (lock) OSSemPost(traffic_light);
-        lock = 0;
+        if (lock) 
+        {
+            LIGHTS = PRIM_GRN;
+            lock = 0;
+
+            OSSemPost(traffic_light);
+        }
 
         /* poll for switch every 5 ms */
         OSTimeDlyHMSM(0, 0, 0, 5);
@@ -498,9 +440,143 @@ void task_e(void *pdata)
 /* off by another switch, at which time the system should return to task A.    */
 /*******************************************************************************/ 
 
+void idle_state(int sec, int ms)
+{
+    *red_leds = 1;
+    /*int shift_right = 1;
+
+    if (shift_right)
+        *red_leds <<= 1;
+    else
+        *red_leds >>= 1;
+
+    if (*red_leds == 512) shift_right = 0;
+    if (*red_leds == 1  ) shift_right = 1;*/
+
+    for (i = 0; i < 9; i++)
+    {
+        OSTimeDlyHMSM(0, 0, sec, ms);
+        *red_leds <<= 1;
+    }
+    for (i = 0; i < 9; i++)
+    {
+        OSTimeDlyHMSM(0, 0, sec, ms);
+        *red_leds >>= 1;
+    }
+}
+
+void change_lights(int MANUAL_SWITCH)
+{
+    switch(MANUAL_SWITCH)
+    {
+        case PRIM_GRN:
+
+            *grn_leds = GRN_LIGHT;
+            disp_hex("pgrn");
+            return;
+
+        case PRIM_YEL:
+
+            *grn_leds = YEL_LIGHT;
+            disp_hex("pyel");
+            return;
+
+        case PRIM_RED:
+
+            *grn_leds = RED_LIGHT;
+            disp_hex("pred");
+            return;
+
+        case SECN_GRN:
+
+            *grn_leds = GRN_LIGHT;
+            disp_hex("sgrn");
+            return;
+
+        case SECN_YEL:
+
+            *grn_leds = YEL_LIGHT;
+            disp_hex("syel");
+            return;
+
+        case SECN_RED:
+
+            *grn_leds = RED_LIGHT;
+            disp_hex("sred");
+            return;
+
+        case LEFT_TRN_1:
+
+            *grn_leds = LTN_LIGHT_1;
+            disp_hex("left");
+            return;
+
+        case LEFT_TRN_2:
+
+            *grn_leds = LTN_LIGHT_2;
+            disp_hex("left");
+            return;
+    }
+}
+
 void task_f(void *pdata)
 {
+    int lock = 0;
+    int idle = 1;
+
+    int MANUAL_SWITCH = -1;
+
     INT8U return_code;
+
+    while (1)
+    {
+        while (*switches == MANUAL_SET)
+        { 
+            if (lock == 0)
+            {
+                *grn_leds = OFF;
+                disp_hex("hand");
+
+                OSSemPend(traffic_light, 0, &return_code);
+                lock = 1;
+            }
+
+            if (lock)
+            {
+                printf("We are in manual mode setting\n");
+
+                if (idle) idle_state(0, 50);
+
+                if (*buttons == MANUAL_LIGHT)
+                {
+                    idle = ~idle;
+                    MANUAL_SWITCH++;
+
+                    change_lights(MANUAL_SWITCH);
+                    OSTimeDlyHMSM(0, 0, 0, 300);
+
+                    idle = ~idle;
+                }
+
+                if (MANUAL_SWITCH == LAST_LIGHT) MANUAL_SWITCH = -1;
+
+                /* poll for button every 5 ms */
+                OSTimeDlyHMSM(0, 0, 0, 5);
+            }
+
+        }
+
+        if (lock) 
+        {
+            LIGHTS = PRIM_GRN;
+            lock = 0;
+
+            OSSemPost(traffic_light);
+        }
+
+        /* poll for switch every 5 ms */
+        OSTimeDlyHMSM(0, 0, 0, 5);
+    }
 }
 
 void traffic_light_init(void)
@@ -530,9 +606,9 @@ void traffic_light_init(void)
     return_code = OSTaskCreate(task_e, NULL, (void *) &task_stack[4][TASK_STACKSIZE - 1], TASK_E_PRIORITY);
     alt_ucosii_check_return_code(return_code);
 
-	///* create task F */
-    //return_code = OSTaskCreate(task_f, NULL, (void *) &task_stack[5][TASK_STACKSIZE - 1], TASK_F_PRIORITY);
-    //alt_ucosii_check_return_code(return_code);
+	/* create task F */
+    return_code = OSTaskCreate(task_f, NULL, (void *) &task_stack[5][TASK_STACKSIZE - 1], TASK_F_PRIORITY);
+    alt_ucosii_check_return_code(return_code);
 }
 
 int main (int argc, char *argv[], char *envp[])
