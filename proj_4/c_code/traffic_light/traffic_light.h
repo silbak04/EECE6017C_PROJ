@@ -31,11 +31,14 @@
 #define SECN_YEL            4
 #define SECN_RED            5
 
-#define ERROR               6
+#define LEFT_TRN_1          6
+#define LEFT_TRN_2          7
 
 #define GRN_LIGHT           0x10
 #define YEL_LIGHT           0x04 
 #define RED_LIGHT           0x01
+#define LTN_LIGHT_1         0x80
+#define LTN_LIGHT_2         0x40
 
 #define PRIM_CWLK           0x07
 #define SECN_CWLK           0x0b
@@ -48,10 +51,13 @@
 
 #define EMERGENCY           0x280
 #define POWER_OUT           0x140
+#define MANUAL_SET          0x201
+#define MANUAL_LIGHT        0xe
+#define LAST_LIGHT          7
 
 #define RED                 0
 #define GRN                 1
 #define RED_GRN             2
 
 #define BLANK               0x7f
-#define OFF                 0x00
+#define OFF                 0x000
